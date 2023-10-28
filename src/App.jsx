@@ -1,9 +1,18 @@
-import SignInPage from "./Components/SignInPage/SignInPage";
+import Sidenav from './components/Sidebar/Sidebar';
 
 function App() {
   return (
-    <div>
-  <SignInPage />
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Sidenav />
     </div>
   );
 }
