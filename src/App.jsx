@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import Sidenav from './components/Sidebar/Sidebar';
 
 function App() {
   return (
@@ -12,14 +12,7 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <h1>Crafted with 💜 by Lucif3r-in</h1>
-      <Button color='secondary'>Secondary</Button>
-      <Button variant='contained' color='success'>
-        Success
-      </Button>
-      <Button variant='outlined' color='error'>
-        Error
-      </Button>
+      <Sidenav />
     </div>
   );
 }
