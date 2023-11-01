@@ -1,4 +1,4 @@
-import Sidenav from './components/Sidebar/Sidebar';
+import DataTable from './Components/Table/Table';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <Sidenav />
+      <DataTable />
     </div>
   );
 }
