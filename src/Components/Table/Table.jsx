@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Modal, Box, Typography } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Dummycolumns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -33,12 +34,40 @@ const DataTable = () => {
   const [editRow, setEditRow] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const [editedData, setEditedData] = useState({
+    id: '',
+    firstName: '',
+    lastName: '',
+    age: '',
+  });
+
   const handleEditClick = (row) => {
     setEditRow(row);
+    setEditedData(row);
     setOpen(true);
   };
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData({
+      ...editedData,
+      [name]: value,
+    });
+  };
+
+  const handleSaveChanges = () => {
+    setEditedData((prev) => {
+      const updatedData = [...Dummyrows];
+      const index = updatedData.findIndex((row) => row.id === prev.id);
+      if (index !== -1) {
+        updatedData[index] = { ...prev };
+      }
+      return prev;
+    });
     setOpen(false);
   };
 
@@ -56,9 +85,9 @@ const DataTable = () => {
             renderCell: (params) => (
               <button
                 onClick={() => handleEditClick(params.row)}
-                style={{ background: 'lightblue', border: 'none', cursor: 'pointer' }}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
               >
-                Edit
+                <EditIcon />
               </button>
             ),
           },
@@ -75,7 +104,7 @@ const DataTable = () => {
       >
         <Box
           sx={{
-            width: 400,
+            width: 600, // Increased width
             bgcolor: 'background.paper',
             p: 4,
             position: 'absolute',
@@ -84,17 +113,51 @@ const DataTable = () => {
             transform: 'translate(-50%, -50%)',
             outline: 'none',
             borderRadius: '8px',
+            '& > div': {
+              marginBottom: '1rem', // Added spacing between inputs
+            },
           }}
         >
           <Typography variant='h6' component='h2' mb={2}>
             Edit Row
           </Typography>
           {editRow && (
-            <div>
-              <Typography mb={1}>ID: {editRow.id}</Typography>
-              <Typography mb={1}>First Name: {editRow.firstName}</Typography>
-              <Typography mb={1}>Last Name: {editRow.lastName}</Typography>
-              <Typography>Age: {editRow.age}</Typography>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <TextField
+                label='ID'
+                name='id'
+                fullWidth
+                value={editedData.id}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField
+                label='First Name'
+                name='firstName'
+                fullWidth
+                value={editedData.firstName}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField
+                label='Last Name'
+                name='lastName'
+                fullWidth
+                value={editedData.lastName}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField
+                label='Age'
+                name='age'
+                fullWidth
+                value={editedData.age}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <Button variant='contained' color='primary' onClick={handleSaveChanges}>
+                Save Changes
+              </Button>
             </div>
           )}
         </Box>
