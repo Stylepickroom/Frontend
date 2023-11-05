@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 5px;
+}
+
+.header button {
+  margin-left: auto;
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.userdetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userdetails .image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userdetails .box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.userdetails .box .credentials {
+  padding-left: 10px;
+}
+
+.single-row {
+  display: flex;
+  align-items: center;
+}
+
+.single-row .value {
+  margin-left: auto;
+}
+
+.single-row .key {
+  padding-left: 10px;
+}

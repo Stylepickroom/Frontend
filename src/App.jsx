@@ -1,4 +1,5 @@
-import DataTable from './Components/Table/Table';
+import OverviewCard from './Components/Overview/Card';
+import './App.css';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <DataTable />
+      <OverviewCard />
     </div>
   );
 }
