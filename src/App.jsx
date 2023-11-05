@@ -1,4 +1,5 @@
-import Sidenav from './components/Sidebar/Sidebar';
+import OverviewCard from './Components/Overview/Card';
+import './App.css';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         justifyContent: 'center',
       }}
     >
-      <Sidenav />
+      <OverviewCard />
     </div>
   );
 }
