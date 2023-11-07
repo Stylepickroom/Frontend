@@ -1,14 +1,14 @@
-import { FaMapMarker, FaMoneyBillWave } from 'react-icons/fa';
+import { FaMapMarker, FaMoneyBillWave, FaYourColorThemeIcon } from 'react-icons/fa';
 import './OverviewCard.css';
 
 const OverviewCard = () => {
   return (
-    <div className='outer-div bg-white rounded-lg shadow-lg p-8 max-w-xl mx-auto my-16 '>
+    <div className="outer-div">
       <div className='header'>
-        <h3 className='text-3xl font-bold text-gray-700 mb-2'>Basic Details</h3>
-        <button className='edit-btn px-4 py-2 bg-blue-500 text-white rounded-md'>Edit</button>
+        <h3>Basic Details</h3>
+        <button className="edit-btn">Edit</button>
       </div>
-      <div className='main-div space-x-4 space-y-4 '>
+      <div className='main-div'>
         <div className='userdetails'>
           <div className='image'>
             <img
@@ -19,34 +19,34 @@ const OverviewCard = () => {
           </div>
           <div className='box'>
             <div className='credentials'>
-              <h3 className='name text-xl'>User Name</h3>
+              <h3 className='name'>User Name</h3>
               <h3 className='email'>example@gmail.com</h3>
             </div>
             <h3 className='designation'>Owner</h3>
           </div>
         </div>
         <div className='single-row'>
-          <FaMapMarker className='mr-3 text-xl' />
+          <FaMapMarker className="icon" />
           <h3 className='key'>Location</h3>
           <h3 className='value'>Delhi</h3>
         </div>
         <div className='single-row'>
-          <FaMoneyBillWave className='mr-3 text-xl' />
+          <FaMoneyBillWave className=' icon' />
           <h3 className='key'>Price Plan</h3>
           <h3 className='value'>Yearly</h3>
         </div>
         <div className='single-row'>
-          <FaMoneyBillWave className='mr-3 text-xl' />
+          <FaMoneyBillWave className='icon' />
           <h3 className='key'>Pricing Start Date</h3>
           <h3 className='value'>StartDate</h3>
         </div>
         <div className='single-row'>
-          <FaMoneyBillWave className='mr-3 text-xl' />
+          <FaMoneyBillWave className='icon' />
           <h3 className='key'>Pricing End Date</h3>
           <h3 className='value'>EndDate</h3>
         </div>
         <div className='single-row'>
-          <FaMoneyBillWave className='mr-3 text-xl' />
+          <FaYourColorThemeIcon className='icon' />
           <h3 className='key'>Color Theme</h3>
           <input className='value' type='color' id='favcolor' name='favcolor' value='#ff0000' />
         </div>
