@@ -1,4 +1,4 @@
-import { FaMapMarker, FaMoneyBillWave, FaYourColorThemeIcon } from 'react-icons/fa';
+import { FaMapMarker, FaMoneyBillWave } from 'react-icons/fa';
 import './OverviewCard.css';
 
 const OverviewCard = () => {
