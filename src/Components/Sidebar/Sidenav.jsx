@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -20,6 +20,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
 import CustomList from './CustomList';
+import OverviewCard from '../Overview/Card';
+import DataTable from '../Table/Table'; // The Tables are imported here for instance a common Table component is imported.
 
 const drawerWidth = 240;
 
@@ -89,7 +91,8 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidenav() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [selectedSection, setSelectedSection] = useState('Overview'); // Initialize the selected section
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -97,6 +100,24 @@ export default function Sidenav() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  // Function to handle section clicks and update the selected section
+  const handleSectionClick = (section) => {
+    setSelectedSection(section);
+  };
+
+  // Function to render the appropriate DataTable component based on the selected section
+ 
+  const renderDataTable = () => {
+    // if (selectedSection === 'Apparel Details') {
+    //   return <DataTable />;
+    // } else if (selectedSection === 'Customer Details') {
+    //   return <DataTable />;
+    // } else {
+    //   // Provide a default component when no section is selected
+    //   return <Typography paragraph>Select a section from the sidebar.</Typography>;
+    // }
   };
 
   return (
@@ -117,7 +138,7 @@ export default function Sidenav() {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap component='div'>
-            Sidebar
+            Merchant Panel
           </Typography>
         </Toolbar>
       </AppBar>
@@ -129,9 +150,10 @@ export default function Sidenav() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Overview'].map((text, index) => (
+          {['Overview', 'Apparel Details', 'Customer Details'].map((text) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                onClick={() => handleSectionClick(text)} // Handle section click
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -145,7 +167,11 @@ export default function Sidenav() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {text === 'Apparel Details' ? (
+                    <InboxIcon />
+                  ) : text === 'Customer Details' ? (
+                    <MailIcon />
+                  ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -154,13 +180,17 @@ export default function Sidenav() {
         </List>
         <Divider />
         <CustomList title='Reports' items={['Apparel Details', 'Customer Details']} open={open} />
-        <CustomList title='Archive Data' items={['Data1', 'Data2']} open={open} />
+        {/* Render the DataTable component based on the selected section */}
+        {renderDataTable()}
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>This is a generalized version of sidebar</Typography>
+        {/* {renderDataTable()} */}
+         {selectedSection === 'Overview' && <OverviewCard />} 
+        {selectedSection === 'Apparel Details' && <DataTable />}
+        {selectedSection === 'Customer Details' && <DataTable />}
+        
       </Box>
-      a
     </Box>
   );
 }

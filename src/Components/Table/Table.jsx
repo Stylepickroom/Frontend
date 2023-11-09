@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -15,6 +16,19 @@ const Dummycolumns = [
     sortable: false,
     width: 160,
     valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+  },
+  {
+    field: 'edit',
+    headerName: 'Edit',
+    width: 100,
+    renderCell: () => (
+      <button
+        onClick={() => console.log('Button Clicked')}
+        style={{ background: 'lightblue', border: 'none', cursor: 'pointer' }}
+      >
+        Edit
+      </button>
+    ),
   },
 ];
 
