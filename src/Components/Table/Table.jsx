@@ -21,7 +21,7 @@ const Dummycolumns = [
     field: 'edit',
     headerName: 'Edit',
     width: 100,
-    renderCell: (params) => (
+    renderCell: () => (
       <button
         onClick={() => console.log('Button Clicked')}
         style={{ background: 'lightblue', border: 'none', cursor: 'pointer' }}
