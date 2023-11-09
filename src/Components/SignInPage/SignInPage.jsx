@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState  } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,11 +22,15 @@ const SignInPage = () => {
     password: '',
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Here,we can implement authentication logic.
     // For now we can use Console.log to check.
     console.log('Form submitted with data:', formData);
+    navigate("/merchant");
+
   };
 
   const handleChange = (e) => {
@@ -34,6 +39,7 @@ const SignInPage = () => {
       ...formData,
       [name]: value,
     });
+    
   };
 
   return (

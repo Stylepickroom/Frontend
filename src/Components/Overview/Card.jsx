@@ -1,12 +1,12 @@
-import { FaMapMarker, FaMoneyBillWave, FaYourColorThemeIcon } from 'react-icons/fa';
+import { FaMapMarker, FaMoneyBillWave } from 'react-icons/fa';
 import './OverviewCard.css';
 
 const OverviewCard = () => {
   return (
-    <div className="outer-div">
+    <div className='outer-div'>
       <div className='header'>
         <h3>Basic Details</h3>
-        <button className="edit-btn">Edit</button>
+        <button className='edit-btn'>Edit</button>
       </div>
       <div className='main-div'>
         <div className='userdetails'>
@@ -26,7 +26,7 @@ const OverviewCard = () => {
           </div>
         </div>
         <div className='single-row'>
-          <FaMapMarker className="icon" />
+          <FaMapMarker className='icon' />
           <h3 className='key'>Location</h3>
           <h3 className='value'>Delhi</h3>
         </div>
@@ -46,7 +46,6 @@ const OverviewCard = () => {
           <h3 className='value'>EndDate</h3>
         </div>
         <div className='single-row'>
-          <FaYourColorThemeIcon className='icon' />
           <h3 className='key'>Color Theme</h3>
           <input className='value' type='color' id='favcolor' name='favcolor' value='#ff0000' />
         </div>
