@@ -12,10 +12,29 @@ function FinishSignup() {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleFinishSignup = () => {
+  const handleFinishSignup = async () => {
     // Add logic to finish signup
-    // For simplicity, let's just navigate back to the home page
-    navigate('/multipage');
+    const mobileNumber = localStorage.getItem('phoneNumber')
+    try{
+      const response = await fetch('https://node-backend.up.railway.app/customer/add-details/', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "phoneNumber": mobileNumber,
+          "email": email,
+          "fullName": name,
+        }),
+      })
+      if (response.ok) {
+        const data = await response.json()
+        localStorage.setItem("customerToken", data.token)
+        navigate(data.redirectURL)
+      }
+    } catch(err) {
+      console.log(err.message)
+    }
   };
 
   return (

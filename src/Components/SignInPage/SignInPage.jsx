@@ -28,9 +28,30 @@ const SignInPage = () => {
     e.preventDefault();
     // Here,we can implement authentication logic.
     // For now we can use Console.log to check.
-    console.log('Form submitted with data:', formData);
-    navigate("/merchant");
-
+    const email = formData.email;
+    const password = formData.password;
+    try{
+      const response = await fetch('https://node-backend.up.railway.app/merchant/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        }),
+      });
+      if (!response.ok){
+        const errorData = await response.json();
+        console.log(errorData)
+      }
+      const data = await response.json();
+      localStorage.setItem('merchantToken', data.token);
+      navigate("/merchant");
+      //window.location.href = data.redirectURL;
+    } catch (err) {
+      console.log(err.message)
+    }
   };
 
   const handleChange = (e) => {
