@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-const DataTable = () => {
+const ApparelDataTable = () => {
   const [open, setOpen] = useState(false);
   const [editedData, setEditedData] = useState({
     apparelName: '', 
@@ -20,7 +20,7 @@ const DataTable = () => {
         console.log('Authorization failed, token not found')
         return 
       }
-      const response = await fetch('http://127.0.0.1:5000/merchant/all-apparels/', {
+      const response = await fetch('https://node-backend.up.railway.app/merchant/all-apparels/', {
         method: 'GET',
         headers: {
           'Authorization': merchantToken,
@@ -69,7 +69,7 @@ const DataTable = () => {
         return
       }
       const apparelID = selectedApparel.id
-      const response = await fetch(`http://127.0.0.1:5000/merchant/apparel/update/${apparelID}`, {
+      const response = await fetch(`https://node-backend.up.railway.app/merchant/apparel/update/${apparelID}`, {
         method: 'POST',
         headers: {
           'Authorization': merchantToken,
@@ -187,4 +187,4 @@ const DataTable = () => {
   );
 };
 
-export default DataTable;
+export default ApparelDataTable;
