@@ -21,9 +21,8 @@ import MailIcon from '@mui/icons-material/Mail';
 
 import CustomList from '../../components/Sidebar/CustomList';
 import OverviewCard from '../Overview/Card';
-import ApparelDataTable from '../Table/ApparelTable';
-import CustomerDataTable from '../Table/CustomerTable'; // The Tables are imported here for instance a common Table component is imported.
-
+import ApparelDataTable from '../Table/ApparelDataTable';
+import CustomerDataTable from '../Table/CustomerDataTable';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -187,7 +186,7 @@ export default function Sidenav() {
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {/* {renderDataTable()} */}
-         {selectedSection === 'Overview' && <OverviewCard />} 
+        {selectedSection === 'Overview' && <OverviewCard />} 
         {selectedSection === 'Apparel Details' && <ApparelDataTable />}
         {selectedSection === 'Customer Details' && <CustomerDataTable />}
         
