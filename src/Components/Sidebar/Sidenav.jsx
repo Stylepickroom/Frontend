@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-import CustomList from './CustomList';
+import CustomList from '../../components/Sidebar/CustomList';
 import OverviewCard from '../Overview/Card';
 import ApparelDataTable from '../Table/ApparelDataTable';
 import CustomerDataTable from '../Table/CustomerDataTable';
@@ -186,8 +186,8 @@ export default function Sidenav() {
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {/* {renderDataTable()} */}
-         {selectedSection === 'Overview' && <OverviewCard />} 
-        {selectedSection === 'Apparel Details' &&  <ApparelDataTable />}
+        {selectedSection === 'Overview' && <OverviewCard />} 
+        {selectedSection === 'Apparel Details' && <ApparelDataTable />}
         {selectedSection === 'Customer Details' && <CustomerDataTable />}
         
       </Box>
