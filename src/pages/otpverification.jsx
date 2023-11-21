@@ -11,7 +11,7 @@ import {
 
 function OtpVerification() {
   const [otp, setOtp] = useState('');
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const [isResendActive, setIsResendActive] = useState(false);
   const navigate = useNavigate();
 
@@ -30,10 +30,33 @@ function OtpVerification() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleVerifyOTP = () => {
+  const handleVerifyOTP = async () => {
     // Add logic to verify OTP
-    // For simplicity, let's assume OTP is always 123456
-    navigate('/finish');
+    const mobileNumber = localStorage.getItem('phoneNumber')
+    try{
+      const response = await fetch("https://node-backend.up.railway.app/customer/verify-otp/", {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "phoneNumber": mobileNumber,
+          "user_otp": otp
+        }),
+      })
+      if (response.ok){
+        const data = await response.json()
+        if (data.redirectURL === '/uploadphoto'){
+          localStorage.setItem('customerToken', data.token)
+          navigate(data.redirectURL)
+        }
+        if (data.redirectURL === '/finish'){
+          navigate(data.redirectURL)
+        }
+      }
+    } catch (err) {
+      console.log(err.message)
+    }
   };
 
   const handleResendOTP = () => {

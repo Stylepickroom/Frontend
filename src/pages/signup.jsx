@@ -6,11 +6,29 @@ import { SignupContainer, SignupHeader, SignupInput } from './styles';
 function Signup() {
   const [mobileNumber, setMobileNumber] = useState('');
   const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
+  localStorage.setItem('phoneNumber', mobileNumber)
 
-  const handleGetOTP = () => {
+  const handleGetOTP = async () => {
     // Add logic to get OTP
-    // For simplicity, let's assume OTP is always 123456
-    navigate('/otp');
+    try{
+      const response = await fetch('https://node-backend.up.railway.app/customer/login/', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phoneNumber: mobileNumber,
+        }),
+      })
+
+      if (response.ok){
+        navigate('/otp')
+      } else {
+        console.log(`Failed to send otp, error: ${response.statusText}`)
+      }
+    } catch (err) {
+      console.log(err.message)
+    }
   };
 
   return (

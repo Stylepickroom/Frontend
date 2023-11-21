@@ -3,24 +3,24 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-const DataTable = () => {
+const CustomerDataTable = () => {
   const [open, setOpen] = useState(false);
   const [editedData, setEditedData] = useState({
-    apparelName: '', 
-    apparelType: '', 
-    imageUrl: '',
-    status: '', 
+    customerName: '',
+    customerPhoneNumber: '',
+    customerImages: '',
+    customerEmail: '',
   });
-  const [apparels, setApparels] = useState([]);
-  const [selectedApparel, setSelectedApparel] = useState(null);
-  const fetchApparels = async () => {
+  const [customers, setCustomers] = useState([]);
+  const [selectedCustomers, setSelectedCustomers] = useState(null);
+  const fetchCustomers = async () => {
     try {
       const merchantToken = localStorage.getItem('merchantToken')
       if (!merchantToken){
         console.log('Authorization failed, token not found')
         return 
       }
-      const response = await fetch('http://127.0.0.1:5000/merchant/all-apparels/', {
+      const response = await fetch('https://node-backend.up.railway.app/merchant/all-customers', {
         method: 'GET',
         headers: {
           'Authorization': merchantToken,
@@ -30,7 +30,13 @@ const DataTable = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setApparels(data.apparels);
+        // Map each customer to include a unique `id` property
+        const customersWithId = data.allCustomers.map((customer) => ({
+            ...customer,
+            id: customer.customerID,
+          }));
+  
+        setCustomers(customersWithId)
       } else {
         console.error('Failed to fetch apparel data');
       }
@@ -39,11 +45,11 @@ const DataTable = () => {
     }
   };
   useEffect(() => {
-    fetchApparels();
+    fetchCustomers();
   }, []);
 
   const handleEditClick = (row) => {
-    setSelectedApparel(row);
+    setSelectedCustomers(row);
     setEditedData(row);
     setOpen(true);
   };
@@ -64,12 +70,12 @@ const DataTable = () => {
         console.log('Authorization failed, token not found')
         return 
       }
-      if (!selectedApparel) {
+      if (!selectedCustomers) {
         console.log("No apparels to edit.")
         return
       }
-      const apparelID = selectedApparel.id
-      const response = await fetch(`http://127.0.0.1:5000/merchant/apparel/update/${apparelID}`, {
+      const customerID = selectedCustomers.customerID
+      const response = await fetch(`https://node-backend.up.railway.app/merchant/apparel/update/${customerID}`, {
         method: 'POST',
         headers: {
           'Authorization': merchantToken,
@@ -80,7 +86,7 @@ const DataTable = () => {
 
       if (response.ok) {
         setOpen(false);
-        fetchApparels();
+        fetchCustomers();
       } else {
         console.error('Failed to save changes');
       }
@@ -92,27 +98,13 @@ const DataTable = () => {
   return (
     <div>
       <DataGrid
-        rows={apparels}
+        rows={customers}
         columns={[
-          { field: 'id', headerName: 'Apparel ID', width: 150 },
-          { field: 'apparelName', headerName: 'Apparel Name', width: 200 },
-          { field: 'apparelType', headerName: 'Apparel Type', width: 150 },
-          { field: 'imageUrl', headerName: 'Image', width: 200 },
-          { field: 'uploadDate', headerName: 'Upload Date', width: 150 },
-          { field: 'status', headerName: 'Status', width: 120 },
-          {
-            field: 'edit',
-            headerName: 'Edit',
-            width: 100,
-            renderCell: (params) => (
-              <button
-                onClick={() => handleEditClick(params.row)}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-              >
-                <EditIcon />
-              </button>
-            ),
-          },
+          { field: 'customerID', headerName: 'Customer ID', width: 150 },
+          { field: 'customerName', headerName: 'Customer Name', width: 200 },
+          { field: 'customerPhoneNumber', headerName: 'Phone Number', width: 150 },
+          { field: 'customerImages', headerName: 'Customer Image', width: 200 },
+          { field: 'customerEmail', headerName: 'Customer Email', width: 150 },
         ]}
         pageSize={5}
         checkboxSelection
@@ -142,7 +134,7 @@ const DataTable = () => {
           <Typography variant='h6' component='h2' mb={2}>
             Edit Row
           </Typography>
-          {selectedApparel && (
+          {selectedCustomers && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <TextField
                 label='Apparel Name'
@@ -187,4 +179,4 @@ const DataTable = () => {
   );
 };
 
-export default DataTable;
+export default CustomerDataTable;
