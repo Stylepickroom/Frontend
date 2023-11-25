@@ -1,19 +1,35 @@
 // Signup.js
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import { SignupContainer, SignupHeader, SignupInput } from './styles';
 
 function Signup() {
   const [mobileNumber, setMobileNumber] = useState('');
-  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [associatedMerchantID, setAssociatedMerchantID] = useState('');
+  const [merchantAssociatedApparelID, setMerchantAssociatedApparelID] = useState('');
+  useEffect(() => {
+    const merchantID = new URLSearchParams(window.location.search).get('merchanID');
+    const apparelID = new URLSearchParams(window.location.search).get('apparelID');
+
+    setAssociatedMerchantID(merchantID)
+    setMerchantAssociatedApparelID(apparelID)
+    if (associatedMerchantID && merchantAssociatedApparelID) {
+      localStorage.setItem("associatedMerchantID", associatedMerchantID);
+      localStorage.setItem("merchantAssociatedApparelID", merchantAssociatedApparelID);
+    }
+  }, [location.search]);
+
+
   localStorage.setItem('phoneNumber', mobileNumber)
 
   const handleGetOTP = async () => {
     // Add logic to get OTP
-    try{
-      const response = await fetch('https://node-backend.up.railway.app/customer/login/', {
+    try {
+      const response = await fetch(`https://node-backend.up.railway.app/customer/login?merchanID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`, {
         method: 'POST',
-        headers:{
+        headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -21,7 +37,7 @@ function Signup() {
         }),
       })
 
-      if (response.ok){
+      if (response.ok) {
         navigate('/otp')
       } else {
         console.log(`Failed to send otp, error: ${response.statusText}`)
@@ -49,7 +65,7 @@ function Signup() {
           padding: '10px 20px',
           borderRadius: '5px',
           display: 'inline-block',
-          fontize: '16px',
+          fontSize: '16px',
         }}
       >
         Get OTP

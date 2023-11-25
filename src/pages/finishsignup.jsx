@@ -15,8 +15,11 @@ function FinishSignup() {
   const handleFinishSignup = async () => {
     // Add logic to finish signup
     const mobileNumber = localStorage.getItem('phoneNumber')
+    const associatedMerchantID = localStorage.getItem('associatedMerchantID')
+    const merchantAssociatedApparelID = localStorage.getItem('merchantAssociatedApparelID')
+
     try{
-      const response = await fetch('https://node-backend.up.railway.app/customer/add-details/', {
+      const response = await fetch(`https://node-backend.up.railway.app/customer/add-details?merchantID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`, {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'
