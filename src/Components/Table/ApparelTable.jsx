@@ -94,10 +94,15 @@ const ApparelDataTable = () => {
       <DataGrid
         rows={apparels}
         columns={[
-          { field: 'id', headerName: 'Apparel ID', width: 150 },
+          { field: 'id', headerName: 'Apparel ID', width: 150, renderCell: (params) => <div style={{ paddingLeft: '25px' }}>{params.value}</div> },
           { field: 'apparelName', headerName: 'Apparel Name', width: 200 },
           { field: 'apparelType', headerName: 'Apparel Type', width: 150 },
-          { field: 'imageUrl', headerName: 'Image', width: 200 },
+          { field: 'imageUrl', headerName: 'Image', width: 200, renderCell: (params) => (
+           <img
+            src={params.value} // Assuming 'imageUrl' is the field containing the image URL
+            alt={`Image of ${params.row.apparelName}`} // Alt text for accessibility
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} // Adjust styling as needed
+            />), },
           { field: 'uploadDate', headerName: 'Upload Date', width: 150 },
           { field: 'status', headerName: 'Status', width: 120 },
           {
