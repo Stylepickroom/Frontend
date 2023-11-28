@@ -59,11 +59,29 @@ function OtpVerification() {
     }
   };
 
-  const handleResendOTP = () => {
-    // Add logic to resend OTP
-    // For simplicity, let's reset the timer to 60 seconds
-    setTimer(60);
-    setIsResendActive(false);
+  const handleResendOTP = async () => {
+    const mobileNumber = localStorage.getItem('phoneNumber')
+    try{
+      const response = await fetch("https://node-backend.up.railway.app/customer/resend-otp/", {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "phoneNumber": mobileNumber,
+        }),
+      })
+      console.log(response)
+      if (response.ok){
+        navigate('/otp')
+      } else {
+        console.log(`Failed to send otp, error: ${response.statusText}`)
+      }
+    } catch (err) {
+      console.log(err.message)
+    }
+    setTimer(300);
+    setIsResendActive(true);
   };
 
   return (
