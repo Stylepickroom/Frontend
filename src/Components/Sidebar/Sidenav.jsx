@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,11 +19,16 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
 import CustomList from '../../components/Sidebar/CustomList';
 import OverviewCard from '../Overview/Card';
-import ApparelDataTable from '../Table/ApparelDataTable';
-import CustomerDataTable from '../Table/CustomerDataTable';
+import ApparelTable from '../Table/ApparelTable';
+import CustomerTable from '../Table/CustomerTable';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -93,6 +99,7 @@ export default function Sidenav() {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [selectedSection, setSelectedSection] = useState('Overview'); // Initialize the selected section
+  const [isAddMerchantDialogOpen, setAddMerchantDialogOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -107,17 +114,20 @@ export default function Sidenav() {
     setSelectedSection(section);
   };
 
-  // Function to render the appropriate DataTable component based on the selected section
- 
-  const renderDataTable = () => {
-    // if (selectedSection === 'Apparel Details') {
-    //   return <DataTable />;
-    // } else if (selectedSection === 'Customer Details') {
-    //   return <DataTable />;
-    // } else {
-    //   // Provide a default component when no section is selected
-    //   return <Typography paragraph>Select a section from the sidebar.</Typography>;
-    // }
+  const renderDataTable = () => {};
+  const handleAddMerchant = () => {
+    setAddMerchantDialogOpen(true);
+  };
+
+  const handleCloseAddMerchantDialog = () => {
+    setAddMerchantDialogOpen(false);
+  };
+  const handleAddMerchantAction = () => {
+    // Add your logic for handling the add merchant action here
+    // can perform form validation and submit the data
+    console.log('Adding Merchant...');
+
+    handleCloseAddMerchantDialog(); // Close the dialog after handling the action
   };
 
   return (
@@ -180,17 +190,73 @@ export default function Sidenav() {
         </List>
         <Divider />
         <CustomList title='Reports' items={['Apparel Details', 'Customer Details']} open={open} />
-        {/* Render the DataTable component based on the selected section */}
         {renderDataTable()}
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {/* {renderDataTable()} */}
-        {selectedSection === 'Overview' && <OverviewCard />} 
-        {selectedSection === 'Apparel Details' && <ApparelDataTable />}
-        {selectedSection === 'Customer Details' && <CustomerDataTable />}
-        
+        {selectedSection === 'Apparel Details' && (
+          <Button variant='contained' color='primary' onClick={handleAddMerchant} sx={{ mb: 2 }}>
+            Add Apparel
+          </Button>
+        )}
+        {selectedSection === 'Overview' && <OverviewCard />}
+        {selectedSection === 'Apparel Details' && <ApparelTable />}
+        {selectedSection === 'Customer Details' && <CustomerTable />}
       </Box>
+      <Dialog open={isAddMerchantDialogOpen} onClose={handleCloseAddMerchantDialog}>
+        <DialogTitle>Add Apparel</DialogTitle>
+        <DialogContent>
+          {/* Add your form or content for adding a merchant here */}
+          {/* For example, you can add a form with input fields */}
+          <Typography variant='body1'>Apparel Information:</Typography>
+          
+          <TextField
+            autoFocus
+            margin='dense'
+            id='apparelId'
+            label='Apparel ID'
+            type='text'
+            fullWidth
+          />
+          <TextField 
+            margin='dense' 
+            id='apparelName' 
+            label='Apparel Name' 
+            type='text' 
+            fullWidth 
+
+          />
+          <TextField 
+            margin='dense' 
+            id='apparelType' 
+            label='Apparel Type' 
+            type='text' 
+            fullWidth 
+
+          />
+          <TextField margin='dense' 
+            id='imageUrl' 
+            label='Image URL' 
+            type='text' 
+            fullWidth 
+
+          />
+          <TextField
+            margin="dense"
+            id="status"
+            label="Status"
+            type="text"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddMerchantDialog}>Cancel</Button>
+          {/* Add your logic for handling the add merchant action here */}
+          <Button onClick={handleAddMerchantAction} color='primary'>
+            Add Apparel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
