@@ -100,6 +100,8 @@ export default function Sidenav() {
   const [open, setOpen] = useState(true);
   const [selectedSection, setSelectedSection] = useState('Overview'); // Initialize the selected section
   const [isAddMerchantDialogOpen, setAddMerchantDialogOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [apparelList, setApparelList] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -122,11 +124,41 @@ export default function Sidenav() {
   const handleCloseAddMerchantDialog = () => {
     setAddMerchantDialogOpen(false);
   };
-  const handleAddMerchantAction = () => {
+  const handleAddMerchantAction = async () => {
     // Add your logic for handling the add merchant action here
     // can perform form validation and submit the data
-    console.log('Adding Merchant...');
 
+    try {
+      const merchantToken = localStorage.getItem('merchantToken');
+      if (!merchantToken) {
+        console.log('Authorization failed, token not found');
+        return;
+      }
+      const formData = {
+        apparelID: document.getElementById('apparelId').value,
+        apparelName: document.getElementById('apparelName').value,
+        apparelType: document.getElementById('apparelType').value,
+        imageUrl: document.getElementById('imageUrl').value,
+      };
+      const response = await fetch('https://node-backend.up.railway.app/merchant/apparel/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: merchantToken,
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setApparelList((apparelList) => [...apparelList, result.apparel]);
+        console.log(result);
+        await fetchApparelList();
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
     handleCloseAddMerchantDialog(); // Close the dialog after handling the action
   };
 
@@ -209,7 +241,7 @@ export default function Sidenav() {
           {/* Add your form or content for adding a merchant here */}
           {/* For example, you can add a form with input fields */}
           <Typography variant='body1'>Apparel Information:</Typography>
-          
+
           <TextField
             autoFocus
             margin='dense'
@@ -218,36 +250,9 @@ export default function Sidenav() {
             type='text'
             fullWidth
           />
-          <TextField 
-            margin='dense' 
-            id='apparelName' 
-            label='Apparel Name' 
-            type='text' 
-            fullWidth 
-
-          />
-          <TextField 
-            margin='dense' 
-            id='apparelType' 
-            label='Apparel Type' 
-            type='text' 
-            fullWidth 
-
-          />
-          <TextField margin='dense' 
-            id='imageUrl' 
-            label='Image URL' 
-            type='text' 
-            fullWidth 
-
-          />
-          <TextField
-            margin="dense"
-            id="status"
-            label="Status"
-            type="text"
-            fullWidth
-          />
+          <TextField margin='dense' id='apparelName' label='Apparel Name' type='text' fullWidth />
+          <TextField margin='dense' id='apparelType' label='Apparel Type' type='text' fullWidth />
+          <TextField margin='dense' id='imageUrl' label='Image URL' type='text' fullWidth />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAddMerchantDialog}>Cancel</Button>
