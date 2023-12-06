@@ -96,18 +96,18 @@ export const ThreePartMultipageContainer = styled.div`
 export const MultipageText = styled.p`
   font-weight: 600;
   font-size: 30px;
-  margin: 0px 1rem 4rem 1rem;
+  margin: 0px 1rem 2rem 1rem;
   text-align: center;
 `;
 
 export const EmbeddedPhoto = styled.img`
   max-width: 100%;
   height: auto;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 `;
 
 export const NextButton = styled.button`
-  padding: 10px 20px;
+  padding: 0px 20px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -126,11 +126,13 @@ export const UploadPhotoContainer = styled.div`
 export const UploadPhotoText = styled.p`
   font-size: 30px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 0px;
 `;
 
 export const PhotoPreview = styled.img`
-  max-width: 100%;
+  width: 80%;
+  aspect-ratio: 3/4;
+  border-radius: 5px;
   height: auto;
   margin-bottom: 16px;
 `;
