@@ -9,9 +9,27 @@ const UploadPhoto = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
-    onDrop: (acceptedFiles) => {
+    onDrop: async (acceptedFiles) => {
       const uploadedPhoto = acceptedFiles[0];
       setPhoto(URL.createObjectURL(uploadedPhoto));
+
+      const customerToken = localStorage.getItem('customerToken')
+      const formData = new FormData()
+      formData.append('file', uploadedPhoto)
+
+      // api calling
+      const response = await fetch('https://node-backend.up.railway.app/customer/tryon', {
+        method: 'POST',
+        headers: {
+          'Authorization': customerToken,
+        },
+        body: formData
+      })
+
+      if (response.ok){
+        const data = await response.json()
+        console.log(data)
+      }
 
       // Save photo to local storage
       const reader = new FileReader();
