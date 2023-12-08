@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const SignupButton = styled(Link)`
   text-decoration: none;
   color: #fff;
-  background: #007bff;
+  background: #853836;
   padding: 10px 20px;
   border-radius: 5px;
   display: inline-block;
@@ -14,18 +14,19 @@ export const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 100vh;
 `;
 
 export const SignupHeader = styled.h2`
   font-size: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 5%;
 `;
 
 export const SignupInput = styled.input`
   padding: 10px;
-  margin-bottom: 16px;
+  border-radius: 5px;
+  margin-bottom: 5%;
 `;
 
 export const OtpVerificationContainer = styled.div`
@@ -53,7 +54,7 @@ export const OtpInput = styled.input`
 
 export const VerifyButton = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #853836;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -79,7 +80,7 @@ export const FinishSignupHeader = styled.h2`
 
 export const FinishSignupButton = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #853836;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -89,13 +90,13 @@ export const ThreePartMultipageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 100vh;
 `;
 
 export const MultipageText = styled.p`
   font-weight: 600;
-  font-size: 30px;
+  font-size: 16px;
   margin: 0px 1rem 2rem 1rem;
   text-align: center;
 `;
@@ -107,12 +108,14 @@ export const EmbeddedPhoto = styled.img`
 `;
 
 export const NextButton = styled.button`
-  padding: 0px 20px;
-  background-color: #007bff;
+  width: 90%;
+  padding: 10px 20px;
+  background-color: #853836;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 2%;
 `;
 export const UploadPhotoContainer = styled.div`
   display: flex;
@@ -139,9 +142,33 @@ export const PhotoPreview = styled.img`
 
 export const UploadButton = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #853836;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+export const PaginationBox = styled.div`
+  width: 100%;
+  height: 5px;
+  border-radius: 10px;
+  background-color: ${(props) => (props.active ? '#853836' : '#ddd')};
+  margin: 0 5px;
+  cursor: pointer;
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 90%;
+`;
+
+export const BottomText = styled.p`
+  font-size: 10px;
+  color: #878787;
+  display: flex;
+  align-items: flex-end;
 `;
