@@ -14,7 +14,7 @@ export const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   height: 100vh;
 `;
 
@@ -22,11 +22,34 @@ export const SignupHeader = styled.h2`
   font-size: 24px;
   margin-bottom: 5%;
 `;
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5%;
+`;
 
+export const Prefix = styled.span`
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 5px;
+`;
 export const SignupInput = styled.input`
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 5%;
+  // margin-bottom: 5%;
+  padding-left: 10px;
+  position: relative;
+
+  &::before {
+    color: #000;
+    content: '+91';
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+  }
 `;
 
 export const OtpVerificationContainer = styled.div`

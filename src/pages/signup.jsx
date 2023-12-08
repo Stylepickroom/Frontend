@@ -1,7 +1,7 @@
 // Signup.js
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate instead of useHistory
-import { SignupContainer, SignupHeader, SignupInput } from './styles';
+import { InputWrapper, Prefix, SignupContainer, SignupHeader, SignupInput } from './styles';
 
 function Signup() {
   const [mobileNumber, setMobileNumber] = useState('');
@@ -26,6 +26,7 @@ function Signup() {
   const handleGetOTP = async () => {
     // Add logic to get OTP
     try {
+      const prefixedMobileNumber = `+91${mobileNumber}`;
       const response = await fetch(
         `https://node-backend.up.railway.app/customer/login?merchanID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`,
         {
@@ -34,7 +35,7 @@ function Signup() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            phoneNumber: mobileNumber,
+            phoneNumber: prefixedMobileNumber,
           }),
         },
       );
@@ -52,12 +53,15 @@ function Signup() {
   return (
     <SignupContainer>
       <SignupHeader>Lets Signup</SignupHeader>
-      <SignupInput
-        type='text'
-        placeholder='Mobile Number'
-        value={mobileNumber}
-        onChange={(e) => setMobileNumber(e.target.value)}
-      />
+      <InputWrapper>
+        <Prefix>+91</Prefix>
+        <SignupInput
+          type='text'
+          placeholder='Mobile Number'
+          value={mobileNumber}
+          onChange={(e) => setMobileNumber(e.target.value)}
+        />
+      </InputWrapper>
       <button
         onClick={handleGetOTP}
         style={{
@@ -66,9 +70,6 @@ function Signup() {
           color: '#fff',
           background: '#853836',
           padding: '10px 20px',
-          borderRadius: '5px',
-          display: 'inline-block',
-          fontSize: '16px',
         }}
       >
         Get OTP
