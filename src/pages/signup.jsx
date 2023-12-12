@@ -67,7 +67,7 @@ function Signup() {
           width: '80%',
           textDecoration: 'none',
           color: '#fff',
-          background: '#853836',
+          background: 'var(--primary-color)',
           padding: '10px 20px',
         }}
       >

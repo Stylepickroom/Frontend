@@ -130,7 +130,7 @@ const DisplayPhoto = () => {
             <IoMdCloseCircleOutline size={30} color='grey' />
           </BackLink>
           <BackLink>
-            <IoBagHandleOutline size={30} color=' #853836' />
+            <IoBagHandleOutline size={30} color='var(--primary-color)' />
           </BackLink>
         </ButtonContainer>
         <StyledImage src={uploadedPhotos.photo[0] || ''} alt='Uploaded Photo' />

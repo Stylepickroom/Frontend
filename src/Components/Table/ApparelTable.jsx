@@ -4,26 +4,30 @@ import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 const ApparelDataTable = () => {
-  const [open, setOpen] = useState(false);
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [editedData, setEditedData] = useState({
-    apparelName: '', 
-    apparelType: '', 
+    apparelName: '',
+    apparelType: '',
     imageUrl: '',
-    status: '', 
+    status: '',
   });
   const [apparels, setApparels] = useState([]);
   const [selectedApparel, setSelectedApparel] = useState(null);
+
   const fetchApparels = async () => {
     try {
-      const merchantToken = localStorage.getItem('merchantToken')
-      if (!merchantToken){
-        console.log('Authorization failed, token not found')
-        return 
+      const merchantToken = localStorage.getItem('merchantToken');
+      if (!merchantToken) {
+        console.log('Authorization failed, token not found');
+        return;
       }
       const response = await fetch('https://node-backend.up.railway.app/merchant/all-apparels/', {
         method: 'GET',
         headers: {
-          'Authorization': merchantToken,
+          Authorization: merchantToken,
           'Content-Type': 'application/json',
         },
       });
@@ -38,18 +42,29 @@ const ApparelDataTable = () => {
       console.error('Error fetching apparel data:', error);
     }
   };
+
   useEffect(() => {
     fetchApparels();
   }, []);
 
+  const handleOpenImage = (event, imageUrl) => {
+    event.stopPropagation();
+    setSelectedImage(imageUrl);
+    setOpenImageModal(true);
+  };
+
+  const handleCloseImage = () => {
+    setOpenImageModal(false);
+  };
+
   const handleEditClick = (row) => {
     setSelectedApparel(row);
     setEditedData(row);
-    setOpen(true);
+    setOpenEditModal(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseEdit = () => {
+    setOpenEditModal(false);
   };
 
   const handleInputChange = (e) => {
@@ -59,27 +74,30 @@ const ApparelDataTable = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const merchantToken = localStorage.getItem('merchantToken')
-      if (!merchantToken){
-        console.log('Authorization failed, token not found')
-        return 
+      const merchantToken = localStorage.getItem('merchantToken');
+      if (!merchantToken) {
+        console.log('Authorization failed, token not found');
+        return;
       }
       if (!selectedApparel) {
-        console.log("No apparels to edit.")
-        return
+        console.log('No apparels to edit.');
+        return;
       }
-      const apparelID = selectedApparel.id
-      const response = await fetch(`https://node-backend.up.railway.app/merchant/apparel/update/${apparelID}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': merchantToken,
-          'Content-Type': 'application/json',
+      const apparelID = selectedApparel.id;
+      const response = await fetch(
+        `https://node-backend.up.railway.app/merchant/apparel/update/${apparelID}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: merchantToken,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editedData),
         },
-        body: JSON.stringify(editedData),
-      });
+      );
 
       if (response.ok) {
-        setOpen(false);
+        setOpenEditModal(false);
         fetchApparels();
       } else {
         console.error('Failed to save changes');
@@ -94,15 +112,27 @@ const ApparelDataTable = () => {
       <DataGrid
         rows={apparels}
         columns={[
-          { field: 'id', headerName: 'Apparel ID', width: 150, renderCell: (params) => <div style={{ paddingLeft: '25px' }}>{params.value}</div> },
+          {
+            field: 'id',
+            headerName: 'Apparel ID',
+            width: 150,
+            renderCell: (params) => <div style={{ paddingLeft: '25px' }}>{params.value}</div>,
+          },
           { field: 'apparelName', headerName: 'Apparel Name', width: 200 },
           { field: 'apparelType', headerName: 'Apparel Type', width: 150 },
-          { field: 'imageUrl', headerName: 'Image', width: 200, renderCell: (params) => (
-           <img
-            src={params.value} // Assuming 'imageUrl' is the field containing the image URL
-            alt={`Image of ${params.row.apparelName}`} // Alt text for accessibility
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }} // Adjust styling as needed
-            />), },
+          {
+            field: 'imageUrl',
+            headerName: 'Image',
+            width: 200,
+            renderCell: (params) => (
+              <img
+                src={params.value}
+                alt={`Image of ${params.row.apparelName}`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}
+                onClick={(event) => handleOpenImage(event, params.value)}
+              />
+            ),
+          },
           { field: 'uploadDate', headerName: 'Upload Date', width: 150 },
           { field: 'status', headerName: 'Status', width: 120 },
           {
@@ -124,13 +154,26 @@ const ApparelDataTable = () => {
       />
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openImageModal}
+        onClose={handleCloseImage}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img src={selectedImage} alt='Selected' style={{ maxHeight: '90vh', maxWidth: '90vw' }} />
+      </Modal>
+
+      <Modal
+        open={openEditModal}
+        onClose={handleCloseEdit}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={{
-            width: 600, // Increased width
+        <Box
+          sx={{
+            width: 600,
             bgcolor: 'background.paper',
             p: 4,
             position: 'absolute',
@@ -140,7 +183,7 @@ const ApparelDataTable = () => {
             outline: 'none',
             borderRadius: '8px',
             '& > div': {
-              marginBottom: '1rem', // Added spacing between inputs
+              marginBottom: '1rem',
             },
           }}
         >

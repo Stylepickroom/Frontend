@@ -101,6 +101,9 @@ table {
   --text-color-primary: #f4f4f4;
   --text-color-secondary: #403b3b;
   --text-color-tertiary: #8c8c8c;
+  --primary-color: #853836;
+  --secondary-color: #ff006e;
+  --text-color: #fff;
 
   --max-width: 83.5em;
   --max-width-bleed: 90%;

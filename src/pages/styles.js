@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const SignupButton = styled(Link)`
   text-decoration: none;
   color: #fff;
-  background: #853836;
+  background: var(--primary-color);
   padding: 10px 20px;
   border-radius: 5px;
   display: inline-block;
@@ -77,7 +77,7 @@ export const OtpInput = styled.input`
 
 export const VerifyButton = styled.button`
   padding: 10px 20px;
-  background-color: #853836;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -103,7 +103,7 @@ export const FinishSignupHeader = styled.h2`
 
 export const FinishSignupButton = styled.button`
   padding: 10px 20px;
-  background-color: #853836;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -133,7 +133,7 @@ export const EmbeddedPhoto = styled.img`
 export const NextButton = styled.button`
   width: 90%;
   padding: 10px 20px;
-  background-color: #853836;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -165,7 +165,7 @@ export const PhotoPreview = styled.img`
 
 export const UploadButton = styled.button`
   padding: 10px 20px;
-  background-color: #853836;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -176,7 +176,7 @@ export const PaginationBox = styled.div`
   width: 100%;
   height: 5px;
   border-radius: 10px;
-  background-color: ${(props) => (props.active ? '#853836' : '#ddd')};
+  background-color: ${(props) => (props.active ? 'var(--primary-color)' : '#ddd')};
   margin: 0 5px;
   cursor: pointer;
 `;
