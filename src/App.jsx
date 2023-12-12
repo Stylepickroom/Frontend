@@ -14,13 +14,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<SignInPage />} />
+          <Route path='/sigin' element={<SignInPage />} />
           <Route path='/merchant' element={<LayoutPage />} />
           <Route path='/customer' element={<LayoutPage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/otp' element={<OtpVerification />} />
           <Route path='/finish' element={<FinishSignup />} />
-          <Route path='/home' element={<HomePage />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/multipage' element={<ThreePartMultipage />} />
           <Route path='/uploadphoto' element={<UploadPhoto />} />
           <Route path='/displayphoto' element={<DisplayPhoto />} />
