@@ -30,7 +30,7 @@ const AdminSignInPage = () => {
     const email = formData.email;
     const password = formData.password;
     try{
-      const response = await fetch('https://node-backend.up.railway.app/merchant/login', {
+      const response = await fetch('https://node-backend.up.railway.app/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,9 +46,9 @@ const AdminSignInPage = () => {
       }
       const data = await response.json();
 
-      localStorage.setItem('merchantToken', data.token);
+      localStorage.setItem('adminToken', data.token);
       
-      navigate("/merchant");
+      navigate(data.redirectURL);
       //window.location.href = data.redirectURL;
     } catch (err) {
       console.log(err.message)
