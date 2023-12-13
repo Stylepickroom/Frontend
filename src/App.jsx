@@ -8,6 +8,7 @@ import HomePage from './pages/homepage';
 import ThreePartMultipage from './pages/multipage';
 import UploadPhoto from './pages/uploadphoto';
 import DisplayPhoto from './pages/displayphoto';
+import AdminPanelSidenav from './AdminPanel/Sidenav/AdminPanelSidenav';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='/multipage' element={<ThreePartMultipage />} />
           <Route path='/uploadphoto' element={<UploadPhoto />} />
           <Route path='/displayphoto' element={<DisplayPhoto />} />
+          <Route path='/adminpanel' element={<AdminPanelSidenav />} />
         </Routes>
       </BrowserRouter>
     </>
