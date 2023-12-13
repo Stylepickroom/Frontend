@@ -29,6 +29,7 @@ function App() {
           <Route path='/multipage' element={<ThreePartMultipage />} />
           <Route path='/uploadphoto' element={<UploadPhoto />} />
           <Route path='/displayphoto' element={<DisplayPhoto />} />
+          
         </Routes>
       </BrowserRouter>
     </>
