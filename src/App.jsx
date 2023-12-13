@@ -8,8 +8,13 @@ import HomePage from './pages/homepage';
 import ThreePartMultipage from './pages/multipage';
 import UploadPhoto from './pages/uploadphoto';
 import DisplayPhoto from './pages/displayphoto';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const primaryColorFromBackend = '#853836';
+    document.documentElement.style.setProperty('--primary-color', primaryColorFromBackend);
+  }, []);
   return (
     <>
       <BrowserRouter>
