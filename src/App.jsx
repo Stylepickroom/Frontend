@@ -8,9 +8,13 @@ import HomePage from './pages/homepage';
 import ThreePartMultipage from './pages/multipage';
 import UploadPhoto from './pages/uploadphoto';
 import DisplayPhoto from './pages/displayphoto';
-import AdminPanelSidenav from './AdminPanel/Sidenav/AdminPanelSidenav';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const primaryColorFromBackend = '#853836';
+    document.documentElement.style.setProperty('--primary-color', primaryColorFromBackend);
+  }, []);
   return (
     <>
       <BrowserRouter>
@@ -25,7 +29,7 @@ function App() {
           <Route path='/multipage' element={<ThreePartMultipage />} />
           <Route path='/uploadphoto' element={<UploadPhoto />} />
           <Route path='/displayphoto' element={<DisplayPhoto />} />
-          <Route path='/adminpanel' element={<AdminPanelSidenav />} />
+          
         </Routes>
       </BrowserRouter>
     </>

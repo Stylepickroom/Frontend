@@ -21,12 +21,11 @@ function Signup() {
     }
   }, [location.search]);
 
-  localStorage.setItem('phoneNumber', mobileNumber);
+  localStorage.setItem('phoneNumber', `+91${mobileNumber}`);
 
   const handleGetOTP = async () => {
     // Add logic to get OTP
     try {
-      const prefixedMobileNumber = `+91${mobileNumber}`;
       const response = await fetch(
         `https://node-backend.up.railway.app/customer/login?merchanID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`,
         {
@@ -35,7 +34,7 @@ function Signup() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            phoneNumber: prefixedMobileNumber,
+            phoneNumber: localStorage.getItem('phoneNumber'),
           }),
         },
       );
@@ -68,7 +67,7 @@ function Signup() {
           width: '80%',
           textDecoration: 'none',
           color: '#fff',
-          background: '#853836',
+          background: 'var(--primary-color)',
           padding: '10px 20px',
         }}
       >
