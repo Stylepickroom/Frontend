@@ -7,30 +7,30 @@ const OverviewCard = () => {
   useEffect(() => {
     const fetchMerchantData = async () => {
       try {
-        const merchantToken = localStorage.getItem('merchantToken')
-        if (!merchantToken){
-          console.log('Authorization failed, token not found')
-          return 
+        const merchantToken = localStorage.getItem('merchantToken');
+        if (!merchantToken) {
+          console.log('Authorization failed, token not found');
+          return;
         }
         const response = await fetch('https://node-backend.up.railway.app/merchant/profile', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': merchantToken,
-          }
-        })
+            Authorization: merchantToken,
+          },
+        });
         if (response.ok) {
-          const data = await response.json()
-          setMerchantData(data.merchant)
+          const data = await response.json();
+          setMerchantData(data.merchant);
         } else {
-          console.log('failed to find merchant details')
+          console.log('failed to find merchant details');
         }
       } catch (err) {
-        console.log(err.message)
+        console.log(err.message);
       }
-    }
-    fetchMerchantData()
-  }, [])
+    };
+    fetchMerchantData();
+  }, []);
   return (
     <div className='outer-div bg-white rounded-lg shadow-lg p-8 max-w-xl mx-auto my-16 '>
       {/* Existing code */}
@@ -79,7 +79,17 @@ const OverviewCard = () => {
             <div className='single-row'>
               <FaMoneyBillWave className='mr-3 text-xl' />
               <h3 className='key'>Color Theme</h3>
-              <input className='value' type='color' id='favcolor' name='favcolor' value='#ff0000' />
+              <input
+                className='value'
+                type='color'
+                id='favcolor'
+                name='favcolor'
+                value={localStorage.getItem('themeColor') || '#ff0000'}
+                onChange={(e) => {
+                  localStorage.setItem('themeColor', e.target.value);
+                  document.documentElement.style.setProperty('--primary-color', e.target.value);
+                }}
+              />
             </div>
             {/* Display other merchant details similarly */}
           </div>

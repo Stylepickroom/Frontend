@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
-    const primaryColorFromBackend = '#853836';
+    const primaryColorFromBackend = localStorage.getItem('themeColor') || '#853836';
     document.documentElement.style.setProperty('--primary-color', primaryColorFromBackend);
   }, []);
   return (
