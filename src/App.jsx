@@ -8,6 +8,9 @@ import HomePage from './pages/homepage';
 import ThreePartMultipage from './pages/multipage';
 import UploadPhoto from './pages/uploadphoto';
 import DisplayPhoto from './pages/displayphoto';
+// admin section
+import AdminSignInPage from './AdminPanel/SignInPage/SignInPage'
+import AdminPanelSidenav from './AdminPanel/Sidenav/AdminPanelSidenav'
 import { useEffect } from 'react';
 
 function App() {
@@ -29,6 +32,9 @@ function App() {
           <Route path='/multipage' element={<ThreePartMultipage />} />
           <Route path='/uploadphoto' element={<UploadPhoto />} />
           <Route path='/displayphoto' element={<DisplayPhoto />} />
+          <Route path='/admin/signin' element={<AdminSignInPage />} />
+          <Route path='/admin/dashboard' element={<AdminPanelSidenav />} />
+          
         </Routes>
       </BrowserRouter>
     </>
