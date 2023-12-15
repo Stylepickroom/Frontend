@@ -4,6 +4,28 @@ import { useState, useEffect } from 'react';
 
 const OverviewCard = () => {
   const [merchantData, setMerchantData] = useState(null);
+  const [colorCode, setColorCode]  = useState(null);
+  const saveColorCode = async ()  => {
+    try {
+      const merchantToken = localStorage.getItem('merchantToken');
+      if (!merchantToken) {
+        console.log('Authorization failed, token not found');
+        return;
+      }
+      const response = await fetch('https://node-backend.up.railway.app/merchant/colorcode', {
+        method: 'POST',
+        headers: {
+          'Authorization': merchantToken, 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "colorCode": colorCode
+        })
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   useEffect(() => {
     const fetchMerchantData = async () => {
       try {
@@ -30,7 +52,7 @@ const OverviewCard = () => {
       }
     };
     fetchMerchantData();
-  }, []);
+  }, [colorCode]);
   return (
     <div className='outer-div bg-white rounded-lg shadow-lg p-8 max-w-xl mx-auto my-16 '>
       {/* Existing code */}
@@ -84,9 +106,11 @@ const OverviewCard = () => {
                 type='color'
                 id='favcolor'
                 name='favcolor'
-                value={localStorage.getItem('themeColor') || '#ff0000'}
+                value={localStorage.getItem('themeColor')}
                 onChange={(e) => {
                   localStorage.setItem('themeColor', e.target.value);
+                  setColorCode(e.target.value);
+                  saveColorCode();
                   document.documentElement.style.setProperty('--primary-color', e.target.value);
                 }}
               />
