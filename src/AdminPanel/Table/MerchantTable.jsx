@@ -30,17 +30,16 @@ const MerchantTable = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.merchants);
         const merchantsWithId = data.merchants.map((merchant) => ({
           ...merchant,
-          id: merchant.merchantID, // Replace with the appropriate unique identifier from your data
+          id: merchant.merchantID, 
         }));
         setMerchants(merchantsWithId);
       } else {
-        console.error('Failed to fetch apparel data');
+        console.error('Failed to fetch Merchant data');
       }
     } catch (error) {
-      console.error('Error fetching apparel data:', error);
+      console.error('Error fetching Merchant data:', error);
     }
   };
   useEffect(() => {
@@ -69,22 +68,34 @@ const MerchantTable = () => {
         console.log('Authorization failed, token not found')
         return 
       }
-      if (!setSelectedMerchant) {
+      if (!selectedMerchant) {
         console.log("No Merchants to edit.")
         return
       }
-      const merchantID = setSelectedMerchant.id
+      const merchantID = selectedMerchant.id
+      console.log(merchantID)
+      console.log(JSON.stringify(editedData))
       const response = await fetch(`https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`, {
         method: 'POST',
         headers: {
           'Authorization': adminToken,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editedData),
+        body: JSON.stringify({
+          "name": editedData.merchantName,
+          "type": editedData.merchantType,
+          "email":  editedData.merchantEmail,
+          "location": editedData.merchantLocation,
+          "theme": editedData.merchantColourTheme,
+          "imagePath": editedData.merchantLogo,
+          "designation": editedData.merchantDesignation,
+          "status": editedData.merchantActive
+        }),
       });
 
       if (response.ok) {
         setOpen(false);
+        console.log(response.json())
         fetchMerchants();
       } else {
         console.error('Failed to save changes');
@@ -118,6 +129,16 @@ const MerchantTable = () => {
               </button>
             ),
           },
+          { field: 'Apparel Details', headerName: 'Apparel Details', width: 120,
+          renderCell: () => (
+              <button
+                onClick={()=>{}}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+              >
+                <LaunchIcon />
+              </button>
+            ),
+           },
         ]}
         pageSize={5}
         checkboxSelection
@@ -161,15 +182,55 @@ const MerchantTable = () => {
                 label='Merchant Type'
                 name='merchantType'
                 fullWidth
-                value={editedData.apparelType}
+                value={editedData.merchantType}
                 onChange={handleInputChange}
                 variant='outlined'
               />
               <TextField
                 label='Status'
-                name='merchantActive'
+                name='status'
                 fullWidth
-                value={editedData.status}
+                value={editedData.merchantActive}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+               <TextField
+                label='Email'
+                name='merchantEmail'
+                fullWidth
+                value={editedData.merchantEmail}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField
+                label='Designation'
+                name='merchantDesignation'
+                fullWidth
+                value={editedData.merchantDesignation}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+                <TextField
+                label='Location'
+                name='merchantLocation'
+                fullWidth
+                value={editedData.merchantLocation}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField  // this is going to be a picture select field for logo uploading
+                label='Logo'
+                name='merchantImagePath'
+                fullWidth
+                value={editedData.merchantLogo}
+                onChange={handleInputChange}
+                variant='outlined'
+              />
+              <TextField // this is going to be a color picker field
+                label='ColourTheme'
+                name='merchantTheme'
+                fullWidth
+                value={editedData.merchantColourTheme}
                 onChange={handleInputChange}
                 variant='outlined'
               />
