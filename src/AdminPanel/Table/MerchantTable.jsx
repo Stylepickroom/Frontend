@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 const MerchantTable = () => {
   const [open, setOpen] = useState(false);
@@ -112,6 +113,16 @@ const MerchantTable = () => {
               </button>
             ),
           },
+          { field: 'Apparel Details', headerName: 'Apparel Details', width: 120,
+          renderCell: () => (
+              <button
+                onClick={()=>{}}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+              >
+                <LaunchIcon />
+              </button>
+            ),
+           },
         ]}
         pageSize={5}
         checkboxSelection
