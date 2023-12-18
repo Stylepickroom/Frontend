@@ -1,5 +1,5 @@
 import { FaMapMarker, FaMoneyBillWave } from 'react-icons/fa';
-import './OverviewCard.css';
+import '../Overview/OverviewCard.css';
 import { useState, useEffect } from 'react';
 
 const OverviewCard = () => {

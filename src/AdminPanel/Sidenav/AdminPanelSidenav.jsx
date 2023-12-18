@@ -18,7 +18,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import MailIcon from '@mui/icons-material/Mail';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -28,6 +28,7 @@ import TextField from '@mui/material/TextField';
 import CustomList from './CustomList';
 import OverviewCard from '../Overview/Card';
 import ApparelTable from '../Table/MerchantTable';
+import BillingCard from '../BillingCard/BillingCard';
 // import CustomerTable from '../Table/CustomerTable';
 const drawerWidth = 240;
 
@@ -192,7 +193,7 @@ export default function AdminPanelSidenav() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Merchant Overview', 'Merchant Details'].map((text) => (
+          {['Merchant Details','Billing Details'].map((text) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 onClick={() => handleSectionClick(text)} // Handle section click
@@ -211,9 +212,9 @@ export default function AdminPanelSidenav() {
                 >
                   {text === 'Merchant Details' ? (
                     <InboxIcon />
-                  ) : text === 'Customer Details' ? (
-                    <MailIcon />
-                  ) : null}
+                  ) : text === 'Billing Details' ? (
+                    <InboxIcon />
+                  ) : null }
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -233,6 +234,7 @@ export default function AdminPanelSidenav() {
         )}
         {selectedSection === 'Merchant Overview' && <OverviewCard />}
         {selectedSection === 'Merchant Details' && <ApparelTable />}
+        {selectedSection === 'Billing Details' && <BillingCard />}
         {/* {selectedSection === 'Customer Details' && <CustomerTable />} */}
       </Box>
       <Dialog open={isAddMerchantDialogOpen} onClose={handleCloseAddMerchantDialog}>
