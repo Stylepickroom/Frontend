@@ -11,26 +11,31 @@ const MerchantTable = () => {
     merchantType: '', 
     status: '', 
   });
-  const [apparels, setApparels] = useState([]);
-  const [selectedApparel, setSelectedApparel] = useState(null);
-  const fetchApparels = async () => {
+  const [merchants, setMerchants] = useState([]);
+  const [selectedMerchant, setSelectedMerchant] = useState(null);
+  const fetchMerchants = async () => {
     try {
-      const merchantToken = localStorage.getItem('merchantToken')
-      if (!merchantToken){
+      const adminToken = localStorage.getItem('adminToken')
+      if (!adminToken){
         console.log('Authorization failed, token not found')
         return 
       }
-      const response = await fetch('https://node-backend.up.railway.app/merchant/all-apparels/', {
+      const response = await fetch('https://node-backend.up.railway.app/admin/merchants/', {
         method: 'GET',
         headers: {
-          'Authorization': merchantToken,
+          'Authorization': adminToken,
           'Content-Type': 'application/json',
         },
       });
 
       if (response.ok) {
         const data = await response.json();
-        setApparels(data.apparels);
+        console.log(data.merchants);
+        const merchantsWithId = data.merchants.map((merchant) => ({
+          ...merchant,
+          id: merchant.merchantID, // Replace with the appropriate unique identifier from your data
+        }));
+        setMerchants(merchantsWithId);
       } else {
         console.error('Failed to fetch apparel data');
       }
@@ -39,11 +44,11 @@ const MerchantTable = () => {
     }
   };
   useEffect(() => {
-    fetchApparels();
+    fetchMerchants();
   }, []);
 
   const handleEditClick = (row) => {
-    setSelectedApparel(row);
+    setSelectedMerchant(row);
     setEditedData(row);
     setOpen(true);
   };
@@ -59,20 +64,20 @@ const MerchantTable = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const merchantToken = localStorage.getItem('merchantToken')
-      if (!merchantToken){
+      const adminToken = localStorage.getItem('adminToken')
+      if (!adminToken){
         console.log('Authorization failed, token not found')
         return 
       }
-      if (!selectedApparel) {
-        console.log("No apparels to edit.")
+      if (!setSelectedMerchant) {
+        console.log("No Merchants to edit.")
         return
       }
-      const apparelID = selectedApparel.id
-      const response = await fetch(`https://node-backend.up.railway.app/merchant/apparel/update/${apparelID}`, {
+      const merchantID = setSelectedMerchant.id
+      const response = await fetch(`https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`, {
         method: 'POST',
         headers: {
-          'Authorization': merchantToken,
+          'Authorization': adminToken,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedData),
@@ -80,7 +85,7 @@ const MerchantTable = () => {
 
       if (response.ok) {
         setOpen(false);
-        fetchApparels();
+        fetchMerchants();
       } else {
         console.error('Failed to save changes');
       }
@@ -92,14 +97,14 @@ const MerchantTable = () => {
   return (
     <div>
       <DataGrid
-        rows={apparels}
+        rows={merchants}
         columns={[
           { field: 'id', headerName: 'Merchant ID', width: 150, renderCell: (params) => <div style={{ paddingLeft: '25px' }}>{params.value}</div> },
           { field: 'merchantName', headerName: 'Merchant Name', width: 200 },
-          { field: 'merchnatLocation', headerName: 'Location', width: 150 },
-          { field: 'uploadDate', headerName: 'Upload Date', width: 150 },
-          { field: 'createDate', headerName: 'Create Date', width: 150 },
-          { field: 'status', headerName: 'Status', width: 120 },
+          { field: 'merchantLocation', headerName: 'Location', width: 150 },
+          { field: 'merchantPricingEnded', headerName: 'Plan Ended', width: 150 },
+          { field: 'merchantPricingStarted', headerName: 'Plan Started', width: 150 },
+          { field: 'merchantActive', headerName: 'Status', width: 120 },
           {
             field: 'edit',
             headerName: 'Edit',
@@ -113,16 +118,6 @@ const MerchantTable = () => {
               </button>
             ),
           },
-          { field: 'Apparel Details', headerName: 'Apparel Details', width: 120,
-          renderCell: () => (
-              <button
-                onClick={()=>{}}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-              >
-                <LaunchIcon />
-              </button>
-            ),
-           },
         ]}
         pageSize={5}
         checkboxSelection
@@ -152,13 +147,13 @@ const MerchantTable = () => {
           <Typography variant='h6' component='h2' mb={2}>
             Edit Row
           </Typography>
-          {selectedApparel && (
+          {selectedMerchant && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <TextField
                 label='Merchant Name'
                 name='merchantName'
                 fullWidth
-                value={editedData.apparelName}
+                value={editedData.merchantName}
                 onChange={handleInputChange}
                 variant='outlined'
               />
@@ -172,7 +167,7 @@ const MerchantTable = () => {
               />
               <TextField
                 label='Status'
-                name='status'
+                name='merchantActive'
                 fullWidth
                 value={editedData.status}
                 onChange={handleInputChange}
