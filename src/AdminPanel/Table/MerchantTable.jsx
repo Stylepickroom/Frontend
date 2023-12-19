@@ -7,23 +7,23 @@ import LaunchIcon from '@mui/icons-material/Launch';
 const MerchantTable = () => {
   const [open, setOpen] = useState(false);
   const [editedData, setEditedData] = useState({
-    merchantName: '', 
-    merchantType: '', 
-    status: '', 
+    merchantName: '',
+    merchantType: '',
+    status: '',
   });
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
   const fetchMerchants = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken')
-      if (!adminToken){
-        console.log('Authorization failed, token not found')
-        return 
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminToken) {
+        console.log('Authorization failed, token not found');
+        return;
       }
       const response = await fetch('https://node-backend.up.railway.app/admin/merchants/', {
         method: 'GET',
         headers: {
-          'Authorization': adminToken,
+          Authorization: adminToken,
           'Content-Type': 'application/json',
         },
       });
@@ -32,7 +32,7 @@ const MerchantTable = () => {
         const data = await response.json();
         const merchantsWithId = data.merchants.map((merchant) => ({
           ...merchant,
-          id: merchant.merchantID, 
+          id: merchant.merchantID,
         }));
         setMerchants(merchantsWithId);
       } else {
@@ -63,39 +63,42 @@ const MerchantTable = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const adminToken = localStorage.getItem('adminToken')
-      if (!adminToken){
-        console.log('Authorization failed, token not found')
-        return 
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminToken) {
+        console.log('Authorization failed, token not found');
+        return;
       }
       if (!selectedMerchant) {
-        console.log("No Merchants to edit.")
-        return
+        console.log('No Merchants to edit.');
+        return;
       }
-      const merchantID = selectedMerchant.id
-      console.log(merchantID)
-      console.log(JSON.stringify(editedData))
-      const response = await fetch(`https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': adminToken,
-          'Content-Type': 'application/json',
+      const merchantID = selectedMerchant.id;
+      console.log(merchantID);
+      console.log(JSON.stringify(editedData));
+      const response = await fetch(
+        `https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: adminToken,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: editedData.merchantName,
+            type: editedData.merchantType,
+            email: editedData.merchantEmail,
+            location: editedData.merchantLocation,
+            theme: editedData.merchantColourTheme,
+            imagePath: editedData.merchantLogo,
+            designation: editedData.merchantDesignation,
+            status: editedData.merchantActive,
+          }),
         },
-        body: JSON.stringify({
-          "name": editedData.merchantName,
-          "type": editedData.merchantType,
-          "email":  editedData.merchantEmail,
-          "location": editedData.merchantLocation,
-          "theme": editedData.merchantColourTheme,
-          "imagePath": editedData.merchantLogo,
-          "designation": editedData.merchantDesignation,
-          "status": editedData.merchantActive
-        }),
-      });
+      );
 
       if (response.ok) {
         setOpen(false);
-        console.log(response.json())
+        console.log(response.json());
         fetchMerchants();
       } else {
         console.error('Failed to save changes');
@@ -110,12 +113,58 @@ const MerchantTable = () => {
       <DataGrid
         rows={merchants}
         columns={[
-          { field: 'id', headerName: 'Merchant ID', width: 150, renderCell: (params) => <div style={{ paddingLeft: '25px' }}>{params.value}</div> },
-          { field: 'merchantName', headerName: 'Merchant Name', width: 200 },
-          { field: 'merchantLocation', headerName: 'Location', width: 150 },
-          { field: 'merchantPricingEnded', headerName: 'Plan Ended', width: 150 },
-          { field: 'merchantPricingStarted', headerName: 'Plan Started', width: 150 },
-          { field: 'merchantActive', headerName: 'Status', width: 120 },
+          {
+            field: 'id',
+            headerName: 'Merchant ID',
+            width: 150,
+            renderCell: (params) => <div style={{ paddingLeft: '0px' }}>{params.value}</div>,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
+            field: 'merchantName',
+            headerName: 'Merchant Name',
+            width: 200,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
+            field: 'merchantLocation',
+            headerName: 'Location',
+            width: 150,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
+            field: 'merchantPricingStarted',
+            headerName: 'Plan Started',
+            width: 150,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
+            field: 'merchantPricingEnded',
+            headerName: 'Plan Ended',
+            width: 150,
+            headerAlign: 'center',
+            align: 'center',
+          },
+
+          {
+            field: 'merchantActive',
+            headerName: 'Status',
+            width: 100,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
+            field: 'merchantTheme',
+            headerName: 'Colour Theme',
+            width: 150,
+            headerAlign: 'center',
+            align: 'center',
+            valueGetter: (params) => params.row.merchantColourTheme,
+          },
           {
             field: 'edit',
             headerName: 'Edit',
@@ -128,17 +177,24 @@ const MerchantTable = () => {
                 <EditIcon />
               </button>
             ),
+            headerAlign: 'center',
+            align: 'center',
           },
-          { field: 'Apparel Details', headerName: 'Apparel Details', width: 120,
-          renderCell: () => (
+          {
+            field: 'Apparel Details',
+            headerName: 'Apparel Details',
+            width: 100,
+            renderCell: () => (
               <button
-                onClick={()=>{}}
+                onClick={() => {}}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
               >
                 <LaunchIcon />
               </button>
             ),
-           },
+            headerAlign: 'center',
+            align: 'center',
+          },
         ]}
         pageSize={5}
         checkboxSelection
@@ -150,7 +206,8 @@ const MerchantTable = () => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={{
+        <Box
+          sx={{
             width: 600, // Increased width
             bgcolor: 'background.paper',
             p: 4,
@@ -194,7 +251,7 @@ const MerchantTable = () => {
                 onChange={handleInputChange}
                 variant='outlined'
               />
-               <TextField
+              <TextField
                 label='Email'
                 name='merchantEmail'
                 fullWidth
@@ -210,7 +267,7 @@ const MerchantTable = () => {
                 onChange={handleInputChange}
                 variant='outlined'
               />
-                <TextField
+              <TextField
                 label='Location'
                 name='merchantLocation'
                 fullWidth
@@ -218,7 +275,7 @@ const MerchantTable = () => {
                 onChange={handleInputChange}
                 variant='outlined'
               />
-              <TextField  // this is going to be a picture select field for logo uploading
+              <TextField // this is going to be a picture select field for logo uploading
                 label='Logo'
                 name='merchantImagePath'
                 fullWidth
@@ -227,7 +284,7 @@ const MerchantTable = () => {
                 variant='outlined'
               />
               <TextField // this is going to be a color picker field
-                label='ColourTheme'
+                label='Colour Theme'
                 name='merchantTheme'
                 fullWidth
                 value={editedData.merchantColourTheme}
