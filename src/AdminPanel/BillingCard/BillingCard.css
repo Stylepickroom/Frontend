@@ -1,194 +1,147 @@
 .outer-div {
-    background-color: #ffffff;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    padding: 2rem;
-    max-width: 36rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 4rem;
-    /* 64px */
-    margin-bottom: 4rem;
-    /* 64px */
-  }
-  
-  
-  .header {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    padding-bottom: 5px;
-  }
-  
-  .header button {
-    margin-left: auto;
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #4299e1;
-    color: #ffffff;
-    border-radius: 0.375rem;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-  
-  }
-  
-  .edit-btn:hover,
-  .edit-btn:focus {
-    background-color: #3182ce;
-    /* Change background color on hover/focus */
-  }
-  
-  .header h3 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
-  
-  
-  }
-  
-  .main-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 1rem; 
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
-  
-  }
-  .main-div > * {
-    margin-right: 0.5rem; 
-    margin-bottom: 0.5rem; 
-  }
-  
-  .userdetails {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .userdetails .image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .userdetails .name{
-    font-size: 1.25rem;
-  }
-  
-  .profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .userdetails .box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-  }
-  
-  .userdetails .box .credentials {
-    padding-left: 10px;
-  }
-  
-  .single-row {
-    display: flex;
-    align-items: center;
-  }
-  
-  .single-row .value {
-    margin-left: auto;
-  }
-  
-  .single-row .key {
-    padding-left: 10px;
-  }
-  .single-row .icon{
-    margin-right: 0.75rem;
-  }
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+  /* 64px */
+  margin-bottom: 4rem;
+  /* 64px */
+}
 
-  /* BillingDetails */
 
-  .billing-container {
-  
-    background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 80px;
-  }
-  
-  .menu {
-    display: grid;
-    grid-template-rows: 40px max-content;
-    gap: 10px;
-    background-color: #444;
-    border-radius: 5px;
-  }
-  
-  .toggle {
-    all: unset;
-    background-color: dodgerblue;
-    color: black;
-    width: 150px;
-    padding: 10px;
-    font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .toggle::after {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-width: 0 3px 3px 0;
-    border-style: solid;
-    transform: rotate(45deg);
-    transition: 0.4s;
-  }
-  
-  .list {
-    background-color: white;
-    color: #444;
-    list-style: none;
-    display: grid;
-    grid-template-rows: repeat(4, 40px);
-    border-radius: 5px;
-    overflow: hidden;
-    height: 0;
-    transition: 0.4s;
-  }
-  
-  .list-item {
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    transition: 0.4s, transform 0.4s var(--delay);
-    transform: translateX(-100%);
-    user-select: none;
-    cursor: pointer;
-  }
-  
-  .list-item:hover {
-    background-color: dodgerblue;
-    color: #fff;
-  }
-  
-  .toggle:focus::after {
-    transform: rotate(225deg);
-  }
-  
-  .toggle:focus ~ .list {
-    height: 160px;
-  }
-  
-  .toggle:focus ~ .list .list-item {
-    transform: translateX(0);
-  }
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 5px;
+}
+
+.header button {
+  margin-left: auto;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #4299e1;
+  color: #ffffff;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+
+}
+
+.edit-btn:hover,
+.edit-btn:focus {
+  background-color: #3182ce;
+  /* Change background color on hover/focus */
+}
+
+.header h3 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+
+
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+
+}
+
+.main-div>* {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.userdetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userdetails .image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userdetails .name {
+  font-size: 1.25rem;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userdetails .box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.userdetails .box .credentials {
+  padding-left: 10px;
+}
+
+.single-row {
+  display: flex;
+  align-items: center;
+}
+
+.single-row .value {
+  margin-left: auto;
+}
+
+.single-row .key {
+  padding-left: 10px;
+}
+
+.single-row .icon {
+  margin-right: 0.75rem;
+}
+
+/* BillingDetails */
+
+.billing-container {
+
+  background-color: #ffffff;
+  /* display: flex;
+  justify-content: center;
+  align-items: flex-start; */
+  padding-top: 80px;
+}
+
+.plan-section {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+
+}
+
+
+.radio-buttons {
+  display: flex;
+  gap: 5px; /* Adjust the spacing between radio buttons */
+  margin-left: 25px;
+}
+
+.radio-buttons label {
+  margin-right: 2px; /* Adjust the spacing between radio button labels */
+}
+.billing-plan-text{
+  font-weight: 400;
+}
