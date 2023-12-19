@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import LaunchIcon from '@mui/icons-material/Launch';
+import {
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit'; //for this use "npm install react-datepicker"
 
 const MerchantTable = () => {
   const [open, setOpen] = useState(false);
@@ -122,6 +130,23 @@ const MerchantTable = () => {
             align: 'center',
           },
           {
+            field: 'merchantImagePath',
+            headerName: 'Merchant Logo',
+            width: 150,
+            renderCell: (params) => (
+              <div style={{ paddingLeft: '0px' }}>
+                {params.value}
+                <img
+                  src={params.value} // 'merchantImagePath' contains the image URL
+                  alt='Merchant Logo'
+                  style={{ width: '25px', height: '60px' }}
+                />
+              </div>
+            ),
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
             field: 'merchantName',
             headerName: 'Merchant Name',
             width: 200,
@@ -180,26 +205,14 @@ const MerchantTable = () => {
             headerAlign: 'center',
             align: 'center',
           },
-          {
-            field: 'Apparel Details',
-            headerName: 'Apparel Details',
-            width: 100,
-            renderCell: () => (
-              <button
-                onClick={() => {}}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-              >
-                <LaunchIcon />
-              </button>
-            ),
-            headerAlign: 'center',
-            align: 'center',
-          },
         ]}
         pageSize={5}
         checkboxSelection
       />
 
+
+
+                                         {/* EDIT ROW SECTION */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -208,6 +221,8 @@ const MerchantTable = () => {
       >
         <Box
           sx={{
+            overflowY: 'auto',
+            maxHeight: '95vh',
             width: 600, // Increased width
             bgcolor: 'background.paper',
             p: 4,
@@ -227,6 +242,14 @@ const MerchantTable = () => {
           </Typography>
           {selectedMerchant && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* <TextField // this is going to be a picture select field for logo uploading
+                label='Logo'
+                name='merchantImagePath'
+                fullWidth
+                defaultValue={editedData.merchantLogo}
+                onChange={handleInputChange}
+                variant='outlined'
+              /> */}
               <TextField
                 label='Merchant Name'
                 name='merchantName'
@@ -243,14 +266,27 @@ const MerchantTable = () => {
                 onChange={handleInputChange}
                 variant='outlined'
               />
-              <TextField
+              {/* <TextField
                 label='Status'
                 name='status'
                 fullWidth
                 value={editedData.merchantActive}
                 onChange={handleInputChange}
                 variant='outlined'
-              />
+              /> */}
+              <Typography variant='h6' sx={{ marginTop: '8px' }}>
+                Status
+              </Typography>
+              <RadioGroup
+                name='merchantActive'
+                value={editedData.merchantActive}
+                onChange={handleInputChange}
+                row // Display radio buttons in a horizontal row
+                sx={{ marginBottom: '8px' }}
+              >
+                <FormControlLabel value='Active' control={<Radio />} label='Active' />
+                <FormControlLabel value='Inactive' control={<Radio />} label='Inactive' />
+              </RadioGroup>
               <TextField
                 label='Email'
                 name='merchantEmail'
@@ -275,21 +311,21 @@ const MerchantTable = () => {
                 onChange={handleInputChange}
                 variant='outlined'
               />
-              <TextField // this is going to be a picture select field for logo uploading
-                label='Logo'
-                name='merchantImagePath'
-                fullWidth
-                value={editedData.merchantLogo}
-                onChange={handleInputChange}
-                variant='outlined'
-              />
               <TextField // this is going to be a color picker field
                 label='Colour Theme'
                 name='merchantTheme'
                 fullWidth
-                value={editedData.merchantColourTheme}
+                defaultValue={editedData.merchantColourTheme}
                 onChange={handleInputChange}
                 variant='outlined'
+                sx={{ marginBottom: '8px' }}
+              />
+              <h4>Logo</h4>
+              <input
+                type='file'
+                accept='image/*'
+                // onChange={}
+                style={{ marginBottom: '8px' }}
               />
               <Button variant='contained' color='primary' onClick={handleSaveChanges}>
                 Save Changes
