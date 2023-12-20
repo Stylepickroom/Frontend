@@ -15,9 +15,46 @@ import { useState } from 'react';
 
 const BillingCard = () => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [billingPlan, setBillingPlan] =useState(null);
+  const [email, setEmail] = useState('');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePlanChange = (event) => {
+    setBillingPlan(event.target.value);
+  };
+
+  const handleSaveButtonClick = async () => {
+    const dateValue = selectedDate;
+    const formattedDate = dateValue.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const adminToken = localStorage.getItem('adminToken');
+    if (!adminToken) {
+      console.log('Authorization failed, token not found');
+      return;
+    }
+
+    const response = await fetch('https://node-backend.up.railway.app/admin/merchant/plan-create', {
+      method: 'POST',
+      headers: {
+        Authorization: adminToken,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        plan: billingPlan,
+        date: formattedDate,
+        email: email
+      })
+    });
   };
 
   return (
@@ -38,8 +75,9 @@ const BillingCard = () => {
             aria-labelledby='demo-radio-buttons-group-label'
             defaultValue='female'
             name='radio-buttons-group'
+            onChange={handlePlanChange}
           >
-            <FormControlLabel value='Weekly' control={<Radio />} label='Weekly' />
+            <FormControlLabel value='Quarterly' control={<Radio />} label='Quarterly' />
             <FormControlLabel value='Monthly' control={<Radio />} label='Monthly' />
             <FormControlLabel value='Yearly' control={<Radio />} label='Yearly' />
           </RadioGroup>
@@ -49,12 +87,18 @@ const BillingCard = () => {
           className='custom-datepicker'
           selected={selectedDate}
           onChange={handleDateChange}
-          dateFormat='MM/dd/yyyy'
+          dateFormat='yyyy-MM-dd'
           placeholderText='Select Date'
         />
 
-        <TextField sx={{}} id='outlined-basic' label='Email' variant='outlined' />
-        <Button sx={{ width: '25px' }} variant='contained'>
+        <TextField 
+        sx={{}} 
+        id='outlined-basic' 
+        label='Email' 
+        variant='outlined'
+        onChange={handleEmailChange}
+        />
+        <Button sx={{ width: '25px' }} variant='contained' onClick={handleSaveButtonClick}>
           Save
         </Button>
       </div>

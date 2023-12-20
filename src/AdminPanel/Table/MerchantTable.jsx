@@ -21,6 +21,8 @@ const MerchantTable = () => {
   });
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const fetchMerchants = async () => {
     try {
       const adminToken = localStorage.getItem('adminToken');
@@ -54,6 +56,11 @@ const MerchantTable = () => {
     fetchMerchants();
   }, []);
 
+  const handleFileChange = (e) =>  {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  }
+
   const handleEditClick = (row) => {
     setSelectedMerchant(row);
     setEditedData(row);
@@ -80,33 +87,31 @@ const MerchantTable = () => {
         console.log('No Merchants to edit.');
         return;
       }
+
+      const formData = new FormData();
+      formData.append('name', editedData.merchantName)
+      formData.append('type', editedData.merchantType)
+      formData.append('email', editedData.merchantEmail)
+      formData.append('location', editedData.merchantLocation)
+      formData.append('theme', editedData.merchantColourTheme)
+      formData.append('designation', editedData.merchantDesignation)
+      formData.append('status', editedData.merchantActive)
+      formData.append('file', selectedFile)
+
       const merchantID = selectedMerchant.id;
-      console.log(merchantID);
-      console.log(JSON.stringify(editedData));
       const response = await fetch(
         `https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`,
         {
           method: 'POST',
           headers: {
             Authorization: adminToken,
-            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            name: editedData.merchantName,
-            type: editedData.merchantType,
-            email: editedData.merchantEmail,
-            location: editedData.merchantLocation,
-            theme: editedData.merchantColourTheme,
-            imagePath: editedData.merchantLogo,
-            designation: editedData.merchantDesignation,
-            status: editedData.merchantActive,
-          }),
+          body: formData,
         },
       );
 
       if (response.ok) {
         setOpen(false);
-        console.log(response.json());
         fetchMerchants();
       } else {
         console.error('Failed to save changes');
@@ -324,7 +329,7 @@ const MerchantTable = () => {
               <input
                 type='file'
                 accept='image/*'
-                // onChange={}
+                onChange={handleFileChange}
                 style={{ marginBottom: '8px' }}
               />
               <Button variant='contained' color='primary' onClick={handleSaveChanges}>
