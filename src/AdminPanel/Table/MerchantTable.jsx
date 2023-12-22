@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {
@@ -22,6 +23,21 @@ const MerchantTable = () => {
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleCheckboxClick = (params) => {
+    const selectedRows = params.api.getSelectedRows();
+    if (selectedRows.length > 0 && selectedRows[0].id === params.row.id) {
+      // If the row is already selected, unselect it on checkbox click
+      params.api.deselectRow(params.row.id);
+    } else {
+      // Otherwise, select the row on checkbox click
+      params.api.selectRow(params.row.id, true);
+    }
+  };
+  const handleMerchantIDClick = (merchantID) => {
+    // we can add logic to navigate to another window or perform other actions here
+    console.log(`Merchant ID ${merchantID} clicked`);
+  };
 
   const fetchMerchants = async () => {
     try {
@@ -56,10 +72,10 @@ const MerchantTable = () => {
     fetchMerchants();
   }, []);
 
-  const handleFileChange = (e) =>  {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
-  }
+  };
 
   const handleEditClick = (row) => {
     setSelectedMerchant(row);
@@ -89,14 +105,14 @@ const MerchantTable = () => {
       }
 
       const formData = new FormData();
-      formData.append('name', editedData.merchantName)
-      formData.append('type', editedData.merchantType)
-      formData.append('email', editedData.merchantEmail)
-      formData.append('location', editedData.merchantLocation)
-      formData.append('theme', editedData.merchantColourTheme)
-      formData.append('designation', editedData.merchantDesignation)
-      formData.append('status', editedData.merchantActive)
-      formData.append('file', selectedFile)
+      formData.append('name', editedData.merchantName);
+      formData.append('type', editedData.merchantType);
+      formData.append('email', editedData.merchantEmail);
+      formData.append('location', editedData.merchantLocation);
+      formData.append('theme', editedData.merchantColourTheme);
+      formData.append('designation', editedData.merchantDesignation);
+      formData.append('status', editedData.merchantActive);
+      formData.append('file', selectedFile);
 
       const merchantID = selectedMerchant.id;
       const response = await fetch(
@@ -130,7 +146,14 @@ const MerchantTable = () => {
             field: 'id',
             headerName: 'Merchant ID',
             width: 150,
-            renderCell: (params) => <div style={{ paddingLeft: '0px' }}>{params.value}</div>,
+            renderCell: (params) => (
+              <div
+                style={{ cursor: 'pointer', color: 'blue', paddingLeft: '0px' }}
+                onClick={() => handleMerchantIDClick(params.row.id)}
+              >
+                {params.value}
+              </div>
+            ),
             headerAlign: 'center',
             align: 'center',
           },
@@ -213,11 +236,18 @@ const MerchantTable = () => {
         ]}
         pageSize={5}
         checkboxSelection
+        onSelectionModelChange={(newSelection) => {
+          // Update the selectionModel only when clicking on the checkbox
+          const selectedRowIds = newSelection;
+          setSelectedMerchant(
+            selectedRowIds.length > 0
+              ? merchants.find((merchant) => merchant.id === selectedRowIds[0])
+              : null,
+          );
+        }}
       />
 
-
-
-                                         {/* EDIT ROW SECTION */}
+      {/* EDIT ROW SECTION */}
       <Modal
         open={open}
         onClose={handleClose}
