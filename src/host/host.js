@@ -1,3 +1,3 @@
-const HostServer = "http://localhost:5000";
+const HostServer = "https://node-backend-production-7612.up.railway.app";
 
 export default HostServer;
