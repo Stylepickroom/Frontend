@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import './MerchantTable.css'
 import {
   Modal,
   Box,
@@ -18,7 +19,11 @@ const MerchantTable = () => {
   const [editedData, setEditedData] = useState({
     merchantName: '',
     merchantType: '',
-    status: '',
+    merchantActive: '',
+    merchantEmail:'',
+    merchantLocation:'',
+    merchantDesignation:'',
+    merchantColourTheme:''
   });
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
@@ -34,6 +39,7 @@ const MerchantTable = () => {
       params.api.selectRow(params.row.id, true);
     }
   };
+  
   const handleMerchantIDClick = (merchantID) => {
     // we can add logic to navigate to another window or perform other actions here
     console.log(`Merchant ID ${merchantID} clicked`);
@@ -70,6 +76,7 @@ const MerchantTable = () => {
   };
   useEffect(() => {
     fetchMerchants();
+    console.log("fetched data");
   }, []);
 
   const handleFileChange = (e) => {
@@ -136,7 +143,6 @@ const MerchantTable = () => {
       console.error('Error saving changes:', error);
     }
   };
-
   return (
     <div>
       <DataGrid
@@ -162,13 +168,8 @@ const MerchantTable = () => {
             headerName: 'Merchant Logo',
             width: 150,
             renderCell: (params) => (
-              <div style={{ paddingLeft: '0px' }}>
-                {params.value}
-                <img
-                  src={params.value} // 'merchantImagePath' contains the image URL
-                  alt='Merchant Logo'
-                  style={{ width: '25px', height: '60px' }}
-                />
+              <div className="logo-circle" >
+                <img src={params.row.merchantLogo} alt="Merchant Logo" />
               </div>
             ),
             headerAlign: 'center',
@@ -216,6 +217,9 @@ const MerchantTable = () => {
             width: 150,
             headerAlign: 'center',
             align: 'center',
+            renderCell: (params) => (
+              <div className='color-circle' style={{backgroundColor:params.row.merchantColourTheme}}></div>
+            ),
             valueGetter: (params) => params.row.merchantColourTheme,
           },
           {
