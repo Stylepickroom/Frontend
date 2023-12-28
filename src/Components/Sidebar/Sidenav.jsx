@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import HostServer from '../../host/host'
 import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -140,7 +141,7 @@ export default function Sidenav() {
         apparelType: document.getElementById('apparelType').value,
         imageUrl: document.getElementById('imageUrl').value,
       };
-      const response = await fetch('https://node-backend.up.railway.app/merchant/apparel/create', {
+      const response = await fetch(`${HostServer}/merchant/apparel/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

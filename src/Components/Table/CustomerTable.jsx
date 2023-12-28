@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import HostServer from '../../host/host'
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
@@ -21,7 +22,7 @@ const CustomerDataTable = () => {
         console.log('Authorization failed, token not found')
         return 
       }
-      const response = await fetch('https://node-backend.up.railway.app/merchant/all-customers', {
+      const response = await fetch(`${HostServer}/merchant/all-customers`, {
         method: 'GET',
         headers: {
           'Authorization': merchantToken,
@@ -76,7 +77,7 @@ const CustomerDataTable = () => {
         return
       }
       const customerID = selectedCustomers.customerID
-      const response = await fetch(`https://node-backend.up.railway.app/merchant/apparel/update/${customerID}`, {
+      const response = await fetch(`${HostServer}/merchant/apparel/update/${customerID}`, {
         method: 'POST',
         headers: {
           'Authorization': merchantToken,

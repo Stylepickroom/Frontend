@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import { InputWrapper, Prefix, SignupContainer, SignupHeader, SignupInput } from './styles';
+import HostServer from '../host/host';
 
 function Signup() {
   const [mobileNumber, setMobileNumber] = useState('');
@@ -27,7 +28,7 @@ function Signup() {
     // Add logic to get OTP
     try {
       const response = await fetch(
-        `https://node-backend.up.railway.app/customer/login?merchanID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`,
+        `${HostServer}/customer/login?merchanID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`,
         {
           method: 'POST',
           headers: {

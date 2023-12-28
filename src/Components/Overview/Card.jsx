@@ -1,6 +1,7 @@
 import { FaMapMarker, FaMoneyBillWave } from 'react-icons/fa';
 import '../Overview/OverviewCard.css';
 import { useState, useEffect } from 'react';
+import HostServer from '../../host/host'
 
 const OverviewCard = () => {
   const [merchantData, setMerchantData] = useState(null);
@@ -12,7 +13,7 @@ const OverviewCard = () => {
         console.log('Authorization failed, token not found');
         return;
       }
-      const response = await fetch('https://node-backend.up.railway.app/merchant/colorcode', {
+      const response = await fetch(`${HostServer}/merchant/colorcode`, {
         method: 'POST',
         headers: {
           'Authorization': merchantToken, 
@@ -34,7 +35,7 @@ const OverviewCard = () => {
           console.log('Authorization failed, token not found');
           return;
         }
-        const response = await fetch('https://node-backend.up.railway.app/merchant/profile', {
+        const response = await fetch(`${HostServer}/merchant/profile`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

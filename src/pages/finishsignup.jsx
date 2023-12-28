@@ -6,6 +6,7 @@ import {
   SignupInput,
   FinishSignupButton,
 } from './styles';
+import HostServer  from '../host/host';
 
 function FinishSignup() {
   const [name, setName] = useState('');
@@ -19,7 +20,7 @@ function FinishSignup() {
     const merchantAssociatedApparelID = localStorage.getItem('merchantAssociatedApparelID')
 
     try{
-      const response = await fetch(`https://node-backend.up.railway.app/customer/add-details?merchantID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`, {
+      const response = await fetch(`${HostServer}/customer/add-details?merchantID=${associatedMerchantID}&apparelID=${merchantAssociatedApparelID}`, {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'

@@ -1,3 +1,4 @@
+import HostServer from '../../host/host'
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
@@ -24,7 +25,7 @@ const ApparelDataTable = () => {
         console.log('Authorization failed, token not found');
         return;
       }
-      const response = await fetch('https://node-backend.up.railway.app/merchant/all-apparels/', {
+      const response = await fetch(`${HostServer}/merchant/all-apparels/`, {
         method: 'GET',
         headers: {
           Authorization: merchantToken,
@@ -85,7 +86,7 @@ const ApparelDataTable = () => {
       }
       const apparelID = selectedApparel.id;
       const response = await fetch(
-        `https://node-backend.up.railway.app/merchant/apparel/update/${apparelID}`,
+        `${HostServer}/merchant/apparel/update/${apparelID}`,
         {
           method: 'POST',
           headers: {

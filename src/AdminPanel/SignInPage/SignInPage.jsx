@@ -1,3 +1,4 @@
+import HostServer from '../../host/host';
 import { useState  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -30,7 +31,7 @@ const AdminSignInPage = () => {
     const email = formData.email;
     const password = formData.password;
     try{
-      const response = await fetch('https://node-backend.up.railway.app/admin/login', {
+      const response = await fetch(HostServer + "/admin/login/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

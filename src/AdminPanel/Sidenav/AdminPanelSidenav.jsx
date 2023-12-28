@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import HostServer from '../../host/host'
 import { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -100,19 +101,19 @@ const Drawer = styled(MuiDrawer, {
 export default function AdminPanelSidenav() {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
-  const [render,setRender] = useState(false);
+  const [render, setRender] = useState(false);
 
-  const [newMerchant,setNewMerchant] = useState({
-    name : '',
-    type : '',
-    email : '',
-    theme : '',
-    designation : '',
-    location : '',
-    password : ''
+  const [newMerchant, setNewMerchant] = useState({
+    name: '',
+    type: '',
+    email: '',
+    theme: '',
+    designation: '',
+    location: '',
+    password: ''
   }) // for the new merchant
 
-  const [selectedFile,setSelectedFile] = useState(null); // for logo upload
+  const [selectedFile, setSelectedFile] = useState(null); // for logo upload
   const [merchants, setMerchants] = useState([]);
   const [selectedSection, setSelectedSection] = useState('Overview'); // Initialize the selected section
   const [isAddMerchantDialogOpen, setAddMerchantDialogOpen] = useState(false);
@@ -134,7 +135,7 @@ export default function AdminPanelSidenav() {
     setSelectedSection(section);
   };
 
-  const renderDataTable = () => {};
+  const renderDataTable = () => { };
   const handleAddMerchant = () => {
     setAddMerchantDialogOpen(true);
   };
@@ -156,7 +157,7 @@ export default function AdminPanelSidenav() {
   };
 
 
-  const handleAddMerchantAction = async (e) => {
+  const handleAddMerchantAction = async () => {
     // Add your logic for handling the add merchant action here
     // can perform form validation and submit the data
     try {
@@ -165,32 +166,30 @@ export default function AdminPanelSidenav() {
         console.log('Authorization failed, token not found');
         return;
       }
-      
-      let formDatas = new FormData()
-      formDatas.append("name",newMerchant.name)
-      formDatas.append("type",newMerchant.type)
-      formDatas.append("email",newMerchant.email)
-      formDatas.append("theme",newMerchant.theme)
-      formDatas.append("designation",newMerchant.designation)
-      formDatas.append("location",newMerchant.location)
-      formDatas.append("password",newMerchant.password)
-      formDatas.append("merchantLogo",selectedFile)
-      
-      const response = await fetch('https://node-backend.up.railway.app/admin/merchant/create', {
+      console.log(newMerchant.email)
+      const formData = new FormData();
+      formData.append("name", newMerchant.name);
+      formData.append("type", newMerchant.type);
+      formData.append("email", newMerchant.email);
+      formData.append("theme", newMerchant.theme);
+      formData.append("designation", newMerchant.designation);
+      formData.append("location", newMerchant.location);
+      formData.append("password", newMerchant.password);
+      formData.append("file", selectedFile);
+
+      console.log(formData, HostServer);
+      const response = await fetch(`${HostServer}/admin/merchant/create`, {
         method: 'POST',
         headers: {
           Authorization: adminToken,
         },
-        body: formDatas,
+        body: formData,
       });
       const result = await response.json();
-      
-      console.log(merchants);
+
       if (response.ok) {
-        setMerchants(oldMerchants => [...oldMerchants , result.merchant])
         fetchMerchants()
         console.log(merchants);
-        console.log(result);
       } else {
         console.log(result);
       }
@@ -203,12 +202,11 @@ export default function AdminPanelSidenav() {
   const fetchMerchants = async () => {
     try {
       const adminToken = localStorage.getItem('adminToken');
-      console.log(adminToken);
       if (!adminToken) {
         console.log('Authorization failed, token not found');
         return;
       }
-      const response = await fetch('https://node-backend.up.railway.app/admin/merchants/', {
+      const response = await fetch(`${HostServer}/admin/merchants/`, {
         method: 'GET',
         headers: {
           Authorization: adminToken,
@@ -223,7 +221,7 @@ export default function AdminPanelSidenav() {
           id: merchant.merchantID,
         }));
         setMerchants(merchantsWithId);
-        
+
       } else {
         console.error('Failed to fetch Merchant data');
       }
@@ -232,9 +230,9 @@ export default function AdminPanelSidenav() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchMerchants();
-  },[]);
+  }, [merchants]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -266,7 +264,7 @@ export default function AdminPanelSidenav() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Merchant Details','Billing Details'].map((text) => (
+          {['Merchant Details', 'Billing Details'].map((text) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 onClick={() => handleSectionClick(text)} // Handle section click
@@ -287,7 +285,7 @@ export default function AdminPanelSidenav() {
                     <InboxIcon />
                   ) : text === 'Billing Details' ? (
                     <InboxIcon />
-                  ) : null }
+                  ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -324,26 +322,74 @@ export default function AdminPanelSidenav() {
             label='Merchant ID'
             type='text'
             fullWidth
-          /> */} 
-          <TextField autoFocus margin='dense' name='name'  id='merchantName' 
-              label='Merchant Name' type='text' onChange={handleInputChange} fullWidth />
-          <TextField margin='dense' name='type' id='merchantType' 
-              label='Merchant Type' type='text' onChange={handleInputChange} fullWidth />
-          <TextField margin='dense' name='text'  id='merchantEmail'
-              label='Email' type='email' onChange={handleInputChange} fullWidth />
-          <TextField margin='dense' name='designation' id='merchantDesignation' 
-              label='Designation' onChange={handleInputChange} type='text' fullWidth />
-          <TextField margin='dense' name='location' id='merchantLocation' 
-              label='Location' type='text' onChange={handleInputChange} fullWidth />
-           <TextField margin='dense' name='theme' id='merchantColourTheme' 
-              label='Colour Theme' onChange={handleInputChange} type='text'  fullWidth /> 
-           
-          <TextField margin='dense' name='password' id='merchantPassword' 
-              label='Merchnat Password' onChange={handleInputChange} type='text' fullWidth />
-          
+          /> */}
+          <TextField
+            autoFocus
+            margin='dense'
+            name='name'
+            id='merchantName'
+            label='Merchant Name'
+            type='text'
+            onChange={handleInputChange}
+            fullWidth />
+          <TextField
+            margin='dense'
+            name='type'
+            id='merchantType'
+            label='Merchant Type'
+            type='text'
+            onChange={handleInputChange}
+            fullWidth />
+          <TextField
+            margin='dense'
+            name='email'
+            id='merchantEmail'
+            label='Email'
+            type='text'
+            onChange={handleInputChange}
+            fullWidth />
+          <TextField
+            margin='dense'
+            name='designation'
+            id='merchantDesignation'
+            label='Designation'
+            onChange={handleInputChange}
+            type='text'
+            fullWidth />
+          <TextField
+            margin='dense'
+            name='location'
+            id='merchantLocation'
+            label='Location'
+            type='text'
+            onChange={handleInputChange}
+            fullWidth />
+          <TextField
+            margin='dense'
+            name='theme'
+            id='merchantColourTheme'
+            label='Colour Theme'
+            onChange={handleInputChange}
+            type='text'
+            fullWidth />
+
+          <TextField
+            margin='dense'
+            name='password'
+            id='merchantPassword'
+            label='Merchnat Password'
+            onChange={handleInputChange}
+            type='password'
+            fullWidth />
+
           <h4>Logo</h4>
-          <input type='file' accept='image/*' name='imagePath' id='merchantLogo' 
-               onChange={handleFileChange} style={{ marginBottom: '8px' }}/>
+          <input
+            type='file'
+            accept='image/*'
+            name='file'
+            id='merchantLogo'
+            onChange={handleFileChange}
+            style={{ marginBottom: '8px' }} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAddMerchantDialog}>Cancel</Button>

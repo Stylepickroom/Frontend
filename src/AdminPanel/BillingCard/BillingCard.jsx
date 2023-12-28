@@ -1,3 +1,4 @@
+import HostServer from '../../host/host'
 import {
   Button,
   FormControl,
@@ -43,7 +44,7 @@ const BillingCard = () => {
       return;
     }
 
-    const response = await fetch('https://node-backend.up.railway.app/admin/merchant/plan-create', {
+    const response = await fetch(`${HostServer}/admin/merchant/plan-create`, {
       method: 'POST',
       headers: {
         Authorization: adminToken,

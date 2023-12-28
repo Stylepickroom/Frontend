@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { UploadPhotoContainer, UploadPhotoText, PhotoPreview, UploadButton } from './styles';
+import HostServer from '../host/host';
 
 const UploadPhoto = () => {
   const [photo, setPhoto] = useState(null);
@@ -18,7 +19,7 @@ const UploadPhoto = () => {
       formData.append('file', uploadedPhoto)
 
       // api calling
-      const response = await fetch('https://node-backend.up.railway.app/customer/tryon', {
+      const response = await fetch(`${HostServer}/customer/tryon`, {
         method: 'POST',
         headers: {
           'Authorization': customerToken,
@@ -27,8 +28,7 @@ const UploadPhoto = () => {
       })
 
       if (response.ok){
-        const data = await response.json()
-        console.log(data)
+        const data = await response.json();
       }
 
       // Save photo to local storage

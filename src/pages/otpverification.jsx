@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import HostServer from '../host/host';
 import {
   OtpInput,
   OtpVerificationContainer,
@@ -34,7 +35,7 @@ function OtpVerification() {
     // Add logic to verify OTP
     const mobileNumber = localStorage.getItem('phoneNumber')
     try{
-      const response = await fetch("https://node-backend.up.railway.app/customer/verify-otp/", {
+      const response = await fetch(`${HostServer}/customer/verify-otp/`, {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'
@@ -62,7 +63,7 @@ function OtpVerification() {
   const handleResendOTP = async () => {
     const mobileNumber = localStorage.getItem('phoneNumber')
     try{
-      const response = await fetch("https://node-backend.up.railway.app/customer/resend-otp/", {
+      const response = await fetch(`${HostServer}/customer/resend-otp/`, {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json'

@@ -1,6 +1,6 @@
 import { useState  } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import HostServer from '../../host/host'
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -31,7 +31,7 @@ const SignInPage = () => {
     const email = formData.email;
     const password = formData.password;
     try{
-      const response = await fetch('https://node-backend.up.railway.app/merchant/login', {
+      const response = await fetch(`${HostServer}/merchant/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const SignInPage = () => {
       }
       const data = await response.json();
       localStorage.setItem('merchantToken', data.token);
-      navigate("/merchant");
+      navigate("/merchant/dashboard");
       //window.location.href = data.redirectURL;
     } catch (err) {
       console.log(err.message)

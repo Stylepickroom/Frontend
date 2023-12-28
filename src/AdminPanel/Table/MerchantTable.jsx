@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import HostServer from '../../host/host'
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './MerchantTable.css'
@@ -52,7 +53,7 @@ const MerchantTable = () => {
         console.log('Authorization failed, token not found');
         return;
       }
-      const response = await fetch('https://node-backend.up.railway.app/admin/merchants/', {
+      const response = await fetch(`${HostServer}/admin/merchants/`, {
         method: 'GET',
         headers: {
           Authorization: adminToken,
@@ -76,7 +77,6 @@ const MerchantTable = () => {
   };
   useEffect(() => {
     fetchMerchants();
-    console.log("fetched data");
   }, []);
 
   const handleFileChange = (e) => {
@@ -123,7 +123,7 @@ const MerchantTable = () => {
 
       const merchantID = selectedMerchant.id;
       const response = await fetch(
-        `https://node-backend.up.railway.app/admin/merchant/edit/${merchantID}`,
+        `${HostServer}/admin/merchant/edit/${merchantID}`,
         {
           method: 'POST',
           headers: {
