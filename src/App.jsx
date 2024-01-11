@@ -28,7 +28,7 @@ function App() {
           <Route path='/merchant/dashboard' element={<LayoutPage />} />
 
 
-          <Route path='/home' element={<HomePage />} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/otp' element={<OtpVerification />} />
           <Route path='/finish' element={<FinishSignup />} />
